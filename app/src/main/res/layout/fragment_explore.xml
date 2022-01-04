@@ -6,6 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".ExploreFragment">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/menu_explore"
+        app:navigationIcon="@drawable/ic_baseline_menu_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/whats_up_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="What's up, Maksim!"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/categories_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="Categories"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/whats_up_textView"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categories_textView"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/today_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="Today's tasks"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categories_recyclerView"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/today_recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today_textView"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
