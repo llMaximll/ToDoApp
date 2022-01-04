@@ -11,7 +11,7 @@ import com.github.llmaximll.todoapp.databinding.FragmentFirstBinding
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class ExploreFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
