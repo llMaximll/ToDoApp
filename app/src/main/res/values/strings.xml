@@ -3,12 +3,12 @@
     <string name="action_search">Search</string>
     <string name="action_notifications">Notifications</string>
     <string name="placeholder_in_development">In development</string>
+    <string name="add_fragment_enter_title">Enter the title</string>
+    <string name="add_fragment_new_task">New task</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>
     <string name="search_fragment_label">Search Fragment</string>
     <string name="notifications_fragment_label">Notifications Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

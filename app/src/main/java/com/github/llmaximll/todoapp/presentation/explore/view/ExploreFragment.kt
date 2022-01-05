@@ -13,7 +13,6 @@ import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.databinding.FragmentExploreBinding
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.CategoriesResult
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
-import com.github.llmaximll.todoapp.utils.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -67,7 +66,7 @@ class ExploreFragment : Fragment() {
             }
         }
         binding.fab.setOnClickListener {
-            binding.constraintLayout.showSnackbar(R.string.placeholder_in_development)
+            findNavController().navigate(R.id.action_ExploreFragment_to_AddFragment)
         }
     }
 
