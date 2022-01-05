@@ -3,26 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/explore_fragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.github.llmaximll.todoapp.ExploreFragment"
-        android:label="@string/first_fragment_label"
+        android:id="@+id/explore_fragment"
+        android:name="com.github.llmaximll.todoapp.presentation.explore.view.ExploreFragment"
+        android:label="@string/explore_fragment_label"
         tools:layout="@layout/fragment_explore">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_ExploreFragment_to_SearchFragment"
+            app:destination="@id/search_fragment" />
+        <action
+            android:id="@+id/action_ExploreFragment_to_NotificationsFragment"
+            app:destination="@id/notifications_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.github.llmaximll.todoapp.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+        android:id="@+id/search_fragment"
+        android:name="com.github.llmaximll.todoapp.presentation.search.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/notifications_fragment"
+        android:name="com.github.llmaximll.todoapp.presentation.notifications.NotificationsFragment"
+        android:label="@string/notifications_fragment_label"
+        tools:layout="@layout/fragment_notifications"/>
 </navigation>

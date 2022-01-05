@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Material3.CardView.Elevated"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tasks_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="40 categories"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/categories_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Business"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
