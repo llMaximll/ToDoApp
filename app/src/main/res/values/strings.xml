@@ -5,6 +5,8 @@
     <string name="placeholder_in_development">In development</string>
     <string name="add_fragment_enter_title">Enter the title</string>
     <string name="add_fragment_new_task">New task</string>
+    <string name="add_fragment_today">Today</string>
+    <string name="add_fragment_error_title">The title cannot be empty</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>
     <string name="search_fragment_label">Search Fragment</string>

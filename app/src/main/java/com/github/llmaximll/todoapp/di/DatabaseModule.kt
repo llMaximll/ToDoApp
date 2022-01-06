@@ -2,7 +2,7 @@ package com.github.llmaximll.todoapp.di
 
 import android.content.Context
 import com.github.llmaximll.todoapp.data.core.db.TasksDb
-import com.github.llmaximll.todoapp.data.explore.local.TasksDao
+import com.github.llmaximll.todoapp.data.tasks.local.TasksDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

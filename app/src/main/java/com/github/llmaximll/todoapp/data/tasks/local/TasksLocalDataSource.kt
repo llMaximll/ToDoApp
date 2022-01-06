@@ -1,7 +1,5 @@
-package com.github.llmaximll.todoapp.data.explore.local
+package com.github.llmaximll.todoapp.data.tasks.local
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface TasksLocalDataSource {

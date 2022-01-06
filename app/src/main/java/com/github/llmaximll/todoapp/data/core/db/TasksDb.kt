@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.github.llmaximll.todoapp.data.explore.local.TaskEntity
-import com.github.llmaximll.todoapp.data.explore.local.TasksDao
+import com.github.llmaximll.todoapp.data.tasks.local.TaskEntity
+import com.github.llmaximll.todoapp.data.tasks.local.TasksDao
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Database(

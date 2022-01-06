@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.llmaximll.todoapp.data.explore.TasksRepository
+import com.github.llmaximll.todoapp.data.tasks.TasksRepository
 import com.github.llmaximll.todoapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,6 +1,6 @@
-package com.github.llmaximll.todoapp.data.explore
+package com.github.llmaximll.todoapp.data.tasks
 
-import com.github.llmaximll.todoapp.data.explore.local.TasksLocalDataSource
+import com.github.llmaximll.todoapp.data.tasks.local.TasksLocalDataSource
 import com.github.llmaximll.todoapp.domain.tasks.models.Category
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
 import com.github.llmaximll.todoapp.utils.Result
@@ -10,6 +10,7 @@ import javax.inject.Inject
 interface TasksRepository {
     suspend fun getTask(id: Long): Result<Task, Throwable?>
     suspend fun getCategories(): Result<List<Category>, Throwable?>
+    suspend fun insertTask(task: Task)
 }
 
 class TasksRepositoryImpl @Inject constructor(
@@ -34,6 +35,11 @@ class TasksRepositoryImpl @Inject constructor(
             Result.Error(null)
         }
         return result
+    }
+
+    override suspend fun insertTask(task: Task) {
+        val entityTask = task.toEntity()
+        tasksLocalDataSource.insert(entityTask)
     }
 
 }

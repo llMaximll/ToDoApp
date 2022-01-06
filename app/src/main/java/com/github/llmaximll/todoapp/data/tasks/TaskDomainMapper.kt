@@ -1,9 +1,18 @@
-package com.github.llmaximll.todoapp.data.explore
+package com.github.llmaximll.todoapp.data.tasks
 
-import com.github.llmaximll.todoapp.data.explore.local.Categories
-import com.github.llmaximll.todoapp.data.explore.local.TaskEntity
+import com.github.llmaximll.todoapp.data.tasks.local.Categories
+import com.github.llmaximll.todoapp.data.tasks.local.TaskEntity
 import com.github.llmaximll.todoapp.domain.tasks.models.Category
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
+
+internal fun TaskEntity.toModel(): Task =
+    Task(
+        id = this.id,
+        title = Task.Title(this.title),
+        description = Task.Description(this.description),
+        category = this.category,
+        done = this.done
+    )
 
 internal fun List<TaskEntity?>.toCategories(): List<Category> {
     val businessList = mutableListOf<Task>()
