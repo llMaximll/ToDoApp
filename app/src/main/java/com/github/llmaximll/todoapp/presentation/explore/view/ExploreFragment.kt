@@ -13,6 +13,7 @@ import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.databinding.FragmentExploreBinding
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.CategoriesResult
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
+import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -31,6 +32,9 @@ class ExploreFragment : Fragment() {
     private val categoriesAdapter = CategoriesAdapter { id ->
 
     }
+    private val tasksAdapter = TasksAdapter { id ->
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +49,8 @@ class ExploreFragment : Fragment() {
 
         setupListeners()
         setupLists()
-        viewModel.result.observe(viewLifecycleOwner, ::handleCategories)
+        viewModel.categoriesResult.observe(viewLifecycleOwner, ::handleCategories)
+        viewModel.tasksResult.observe(viewLifecycleOwner, ::handleTasks)
     }
 
     private fun setupListeners() {
@@ -74,6 +79,9 @@ class ExploreFragment : Fragment() {
         binding.categoriesRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.categoriesRecyclerView.adapter = categoriesAdapter
+
+        binding.todayRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.todayRecyclerView.adapter = tasksAdapter
     }
 
     private fun handleCategories(state: CategoriesResult) {
@@ -88,6 +96,23 @@ class ExploreFragment : Fragment() {
 
             }
             is CategoriesResult.Loading -> {
+
+            }
+        }
+    }
+
+    private fun handleTasks(state: TasksResult) {
+        when (state) {
+            is TasksResult.SuccessResult -> {
+                tasksAdapter.submitList(state.result)
+            }
+            is TasksResult.ErrorResult -> {
+
+            }
+            is TasksResult.EmptyResult -> {
+
+            }
+            is TasksResult.Loading -> {
 
             }
         }

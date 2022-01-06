@@ -10,6 +10,7 @@ import javax.inject.Inject
 interface TasksRepository {
     suspend fun getTask(id: Long): Result<Task, Throwable?>
     suspend fun getCategories(): Result<List<Category>, Throwable?>
+    suspend fun getTasks(): Result<List<Task>, Throwable?>
     suspend fun insertTask(task: Task)
 }
 
@@ -40,6 +41,16 @@ class TasksRepositoryImpl @Inject constructor(
     override suspend fun insertTask(task: Task) {
         val entityTask = task.toEntity()
         tasksLocalDataSource.insert(entityTask)
+    }
+
+    override suspend fun getTasks(): Result<List<Task>, Throwable?> {
+        val tasks = tasksLocalDataSource.getAll()
+        val result = if (tasks != null) {
+            Result.Success(tasks.map { it!!.toModel() })
+        } else {
+            Result.Error(null)
+        }
+        return result
     }
 
 }

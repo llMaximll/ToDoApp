@@ -16,15 +16,23 @@ class ExploreViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
 
-    private val _result = MutableStateFlow<CategoriesResult>(CategoriesResult.EmptyResult)
-    val result: LiveData<CategoriesResult>
-        get() = _result
+    private val _categoriesResult = MutableStateFlow<CategoriesResult>(CategoriesResult.EmptyResult)
+    val categoriesResult: LiveData<CategoriesResult>
+        get() = _categoriesResult
+            .asLiveData(viewModelScope.coroutineContext)
+
+    private val _tasksResult = MutableStateFlow<TasksResult>(TasksResult.EmptyResult)
+    val tasksResult: LiveData<TasksResult>
+        get() = _tasksResult
             .asLiveData(viewModelScope.coroutineContext)
 
     init {
         viewModelScope.launch {
-            _result.value = CategoriesResult.Loading
-            _result.value = handleCategories()
+            _categoriesResult.value = CategoriesResult.Loading
+            _categoriesResult.value = handleCategories()
+
+            _tasksResult.value = TasksResult.Loading
+            _tasksResult.value = handleTasks()
         }
     }
 
@@ -35,6 +43,16 @@ class ExploreViewModel @Inject constructor(
                 CategoriesResult.EmptyResult
             else
                 CategoriesResult.SuccessResult(categories.result)
+        }
+    }
+
+    private suspend fun handleTasks(): TasksResult {
+        return when (val tasks = tasksRepository.getTasks()) {
+            is Result.Error -> TasksResult.ErrorResult(IllegalArgumentException("Tasks not found"))
+            is Result.Success -> if (tasks.result.isEmpty())
+                TasksResult.EmptyResult
+            else
+                TasksResult.SuccessResult(tasks.result)
         }
     }
 }

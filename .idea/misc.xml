@@ -6,12 +6,14 @@
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/content_main.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/content_menu.xml" value="0.14537037037037037" />
-        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_add.xml" value="0.14537037037037037" />
+        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_add.xml" value="0.209375" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_explore.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_first.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_notifications.xml" value="0.209375" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_search.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_category.xml" value="0.209375" />
+        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_task.xml" value="0.209375" />
+        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_today.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/menu/menu_explore.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/menu/menu_main.xml" value="0.209375" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/xml/activity_main_scene.xml" value="0.209375" />
