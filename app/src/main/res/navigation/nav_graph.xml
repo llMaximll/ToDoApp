@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_ExploreFragment_to_AddFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_ExploreFragment_to_DetailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/search_fragment"
@@ -36,4 +39,9 @@
         android:name="com.github.llmaximll.todoapp.presentation.add.view.AddFragment"
         android:label="fragment_add"
         tools:layout="@layout/fragment_add" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.github.llmaximll.todoapp.presentation.details.view.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
 </navigation>

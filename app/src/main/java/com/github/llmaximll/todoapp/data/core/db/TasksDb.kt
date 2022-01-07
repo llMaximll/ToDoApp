@@ -13,7 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
         TaskEntity::class
     ],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class TasksDb : RoomDatabase() {
     abstract fun tasksDao(): TasksDao

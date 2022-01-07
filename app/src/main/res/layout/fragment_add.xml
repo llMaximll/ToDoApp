@@ -1,59 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".presentation.add.view.AddFragment">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:id="@+id/title_inputLayout"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:hint="@string/add_fragment_enter_title"
-        app:counterEnabled="true"
-        app:counterMaxLength="30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:liftOnScroll="true">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title_editText"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:inputType="text"
-            android:maxLength="30"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="16dp"
-        android:text="@string/add_fragment_today"
-        app:icon="@drawable/ic_baseline_calendar_today_24"
-        app:iconGravity="start"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_inputLayout"/>
+        tools:context=".presentation.add.view.AddFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:id="@+id/title_inputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
+            android:hint="@string/add_fragment_enter_title"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:inputType="text"
+                android:maxLength="30"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:id="@+id/calendar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:padding="16dp"
+            android:text="@string/add_fragment_today"
+            app:icon="@drawable/ic_baseline_calendar_today_24"
+            app:iconGravity="start"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_inputLayout"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendar_button">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/textField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_button"
         style="@style/Widget.Material3.Button.ElevatedButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:padding="16dp"
         android:text="@string/add_fragment_new_task"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_gravity="bottom"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -16,7 +16,7 @@ import kotlin.random.Random
 class AddViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
-    private val _addState = MutableLiveData<AddState>(AddState.Empty)
+    private val _addState = MutableLiveData<AddState>(AddState.Loading)
 
     val addState: LiveData<AddState> get() = _addState
 

@@ -26,7 +26,7 @@ class ExploreViewModel @Inject constructor(
         get() = _tasksResult
             .asLiveData(viewModelScope.coroutineContext)
 
-    init {
+    fun fetchData() {
         viewModelScope.launch {
             _categoriesResult.value = CategoriesResult.Loading
             _categoriesResult.value = handleCategories()

@@ -24,8 +24,6 @@ class ExploreFragment : Fragment() {
 
     private var _binding: FragmentExploreBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel: ExploreViewModel by viewModels()
@@ -33,7 +31,7 @@ class ExploreFragment : Fragment() {
 
     }
     private val tasksAdapter = TasksAdapter { id ->
-
+        findNavController().navigate(R.id.action_ExploreFragment_to_DetailsFragment)
     }
 
     override fun onCreateView(
@@ -51,6 +49,12 @@ class ExploreFragment : Fragment() {
         setupLists()
         viewModel.categoriesResult.observe(viewLifecycleOwner, ::handleCategories)
         viewModel.tasksResult.observe(viewLifecycleOwner, ::handleTasks)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.fetchData()
     }
 
     private fun setupListeners() {
