@@ -9,6 +9,7 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Slide
 import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.data.tasks.local.Categories.Companion.toCategory
@@ -16,6 +17,7 @@ import com.github.llmaximll.todoapp.databinding.FragmentAddBinding
 import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddState
 import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddViewModel
 import com.github.llmaximll.todoapp.utils.showErrorResId
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,13 +43,14 @@ class AddFragment : Fragment() {
         setupListeners()
         setupViews()
         setupObservers()
+        setupAnimationLayout()
     }
 
     private fun setupListeners() {
         binding.addButton.setOnClickListener {
             viewModel.add(
                 title = binding.titleEditText.text.toString(),
-                description = binding.titleEditText.text.toString(),
+                description = binding.descriptionEditText.text.toString(),
                 category = binding.textField.text.toString().toCategory()
             )
         }
@@ -71,7 +74,7 @@ class AddFragment : Fragment() {
     private fun handleAddInputError(error: AddState.InputError) {
         when (error) {
             AddState.InputError.Title -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title)
-            AddState.InputError.Description -> Unit
+            AddState.InputError.Description -> binding.descriptionInputLayout.showErrorResId(R.string.add_fragment_error_description)
         }
     }
 
@@ -84,6 +87,17 @@ class AddFragment : Fragment() {
         )
         val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
         (binding.textField as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    private fun setupAnimationLayout() {
+        enterTransition = MaterialContainerTransform().apply {
+            startView = requireActivity().findViewById(R.id.fab)
+            endView = binding.cardView
+        }
+        returnTransition = Slide().apply {
+            duration = 250
+            addTarget(R.id.cardView)
+        }
     }
 
     override fun onDestroyView() {

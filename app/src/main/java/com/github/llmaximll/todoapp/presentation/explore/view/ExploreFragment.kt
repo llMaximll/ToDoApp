@@ -14,6 +14,7 @@ import com.github.llmaximll.todoapp.databinding.FragmentExploreBinding
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.CategoriesResult
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -76,6 +77,12 @@ class ExploreFragment : Fragment() {
         }
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_ExploreFragment_to_AddFragment)
+            exitTransition = MaterialElevationScale(false).apply {
+                duration = 500
+            }
+            reenterTransition = MaterialElevationScale(true).apply {
+                duration = 500
+            }
         }
     }
 
