@@ -38,7 +38,7 @@
         android:paddingEnd="18dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="Categories"
+        android:text="@string/explore_fragment_categories"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
         android:paddingEnd="18dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="Today's tasks"
+        android:text="@string/explore_fragment_today_tasks"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,11 +69,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_recyclerView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:paddingTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/today_textView"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today_textView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

@@ -3,6 +3,8 @@
     <string name="action_search">Search</string>
     <string name="action_notifications">Notifications</string>
     <string name="placeholder_in_development">In development</string>
+    <string name="explore_fragment_categories">Categories</string>
+    <string name="explore_fragment_today_tasks">Today\'s tasks</string>
     <string name="add_fragment_enter_title">Enter the title</string>
     <string name="add_fragment_enter_description">Enter the description</string>
     <string name="add_fragment_new_task">New task</string>
