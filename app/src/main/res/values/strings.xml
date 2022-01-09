@@ -11,6 +11,9 @@
     <string name="add_fragment_today">Today</string>
     <string name="add_fragment_error_title">The title cannot be empty</string>
     <string name="add_fragment_error_description">The description cannot be empty</string>
+    <string name="search_fragment_nothing_found">Nothing found</string>
+    <string name="search_fragment_error_search">Search error</string>
+    <string name="search_fragment_enter_something">Enter something</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>
     <string name="search_fragment_label">Search Fragment</string>

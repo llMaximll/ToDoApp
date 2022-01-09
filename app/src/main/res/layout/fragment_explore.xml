@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/constraintLayout"
-    tools:context=".presentation.explore.view.ExploreFragment">
+    tools:context=".presentation.explore.view.ExploreFragment"
+    android:transitionGroup="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolBar"

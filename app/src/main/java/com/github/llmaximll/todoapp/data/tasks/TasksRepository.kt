@@ -11,6 +11,7 @@ interface TasksRepository {
     suspend fun getTask(id: Long): Result<Task, Throwable?>
     suspend fun getCategories(): Result<List<Category>, Throwable?>
     suspend fun getTasks(): Result<List<Task>, Throwable?>
+    suspend fun searchTasks(query: String): Result<List<Task>, Throwable?>
     suspend fun insertTask(task: Task)
 }
 
@@ -32,6 +33,16 @@ class TasksRepositoryImpl @Inject constructor(
         val tasks = tasksLocalDataSource.getAll()
         val result = if (tasks != null) {
             Result.Success(tasks.toCategories())
+        } else {
+            Result.Error(null)
+        }
+        return result
+    }
+
+    override suspend fun searchTasks(query: String): Result<List<Task>, Throwable?> {
+        val tasks = tasksLocalDataSource.searchTasks("$query%")
+        val result = if (tasks != null) {
+            Result.Success(tasks.map { it.toModel() })
         } else {
             Result.Error(null)
         }

@@ -16,6 +16,14 @@ interface TasksDao {
     @Query("""
         SELECT *
         FROM ${TaskEntity.TABLE_NAME}
+        WHERE ${TaskEntity.TITLE} LIKE :query OR
+        ${TaskEntity.DESCRIPTION} LIKE :query
+    """)
+    suspend fun searchTasks(query: String): List<TaskEntity>?
+
+    @Query("""
+        SELECT *
+        FROM ${TaskEntity.TABLE_NAME}
     """)
     suspend fun getAll(): List<TaskEntity?>?
 

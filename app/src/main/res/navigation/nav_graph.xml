@@ -26,9 +26,15 @@
     </fragment>
     <fragment
         android:id="@+id/search_fragment"
-        android:name="com.github.llmaximll.todoapp.presentation.search.SearchFragment"
+        android:name="com.github.llmaximll.todoapp.presentation.search.view.SearchFragment"
         android:label="@string/search_fragment_label"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/action_SearchFragment_to_DetailsFragment"
+            app:destination="@id/detailsFragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/notifications_fragment"
         android:name="com.github.llmaximll.todoapp.presentation.notifications.NotificationsFragment"

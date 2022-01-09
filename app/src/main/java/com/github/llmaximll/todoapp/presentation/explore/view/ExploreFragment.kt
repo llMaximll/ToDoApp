@@ -15,6 +15,7 @@ import com.github.llmaximll.todoapp.presentation.explore.viewmodel.CategoriesRes
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -65,6 +66,12 @@ class ExploreFragment : Fragment() {
         binding.toolBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.search_fragment -> {
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                        duration = 500
+                    }
+                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                        duration = 500
+                    }
                     findNavController().navigate(R.id.action_ExploreFragment_to_SearchFragment)
                     true
                 }

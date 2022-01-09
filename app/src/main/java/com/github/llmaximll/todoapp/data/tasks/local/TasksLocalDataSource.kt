@@ -5,6 +5,7 @@ import javax.inject.Inject
 interface TasksLocalDataSource {
     suspend fun getById(id: Long): TaskEntity?
     suspend fun getAll(): List<TaskEntity?>?
+    suspend fun searchTasks(query: String): List<TaskEntity>?
     suspend fun insertAll(tasks: List<TaskEntity>)
     suspend fun insert(task: TaskEntity)
     suspend fun deleteAll()
@@ -18,6 +19,9 @@ class TasksLocalDataSourceImpl @Inject constructor(
 
     override suspend fun getAll(): List<TaskEntity?>? =
         tasksDao.getAll()
+
+    override suspend fun searchTasks(query: String): List<TaskEntity>? =
+        tasksDao.searchTasks(query)
 
     override suspend fun insertAll(tasks: List<TaskEntity>) {
         tasksDao.insertAll(tasks)
