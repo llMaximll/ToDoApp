@@ -22,12 +22,6 @@ class DetailsFragment : Fragment() {
 
     private val args: DetailsFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setupAnimationLayout()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,13 +33,14 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val taskId = args.taskId
-        binding.root.transitionName = getString(R.string.shared_element) + taskId.toString()
+        setupAnimationLayout()
 
         Timber.i("Details | transitionName = ${binding.root.transitionName}")
     }
 
     private fun setupAnimationLayout() {
+        val taskId = args.taskId
+        binding.root.transitionName = getString(R.string.shared_element) + taskId.toString()
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = 500
             scrimColor = Color.TRANSPARENT

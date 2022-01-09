@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.llmaximll.todoapp.R
@@ -16,6 +18,7 @@ import com.github.llmaximll.todoapp.presentation.explore.view.TasksAdapter
 import com.github.llmaximll.todoapp.presentation.search.viewmodel.SearchResult
 import com.github.llmaximll.todoapp.presentation.search.viewmodel.SearchViewModel
 import com.github.llmaximll.todoapp.utils.afterTextChanged
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -48,6 +51,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         setupListeners()
         setupTasksList()
@@ -125,7 +131,15 @@ class SearchFragment : Fragment() {
     }
 
     private fun onTaskClicked(id: Long, view: View) {
-        findNavController().navigate(R.id.action_SearchFragment_to_DetailsFragment)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 500
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = 500
+        }
+        val extras = FragmentNavigatorExtras(view to view.transitionName)
+        val directions = SearchFragmentDirections.actionSearchFragmentToDetailsFragment(id)
+        findNavController().navigate(directions, extras)
     }
 
     override fun onDestroyView() {

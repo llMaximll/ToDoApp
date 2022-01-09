@@ -22,14 +22,7 @@
             app:destination="@id/addFragment" />
         <action
             android:id="@+id/action_ExploreFragment_to_DetailsFragment"
-            app:destination="@id/detailsFragment">
-
-            <argument
-                android:name="taskId"
-                app:argType="long"
-                app:nullable="false"/>
-
-        </action>
+            app:destination="@id/detailsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/search_fragment"
@@ -39,7 +32,7 @@
 
         <action
             android:id="@+id/action_SearchFragment_to_DetailsFragment"
-            app:destination="@id/detailsFragment" />
+            app:destination="@id/detailsFragment"/>
 
     </fragment>
     <fragment
