@@ -28,8 +28,8 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SearchViewModel by viewModels()
-    private val tasksAdapter = TasksAdapter() { id ->
-        findNavController().navigate(R.id.action_SearchFragment_to_DetailsFragment)
+    private val tasksAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        TasksAdapter(requireContext(), ::onTaskClicked)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,6 +122,10 @@ class SearchFragment : Fragment() {
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
             duration = 500
         }
+    }
+
+    private fun onTaskClicked(id: Long, view: View) {
+        findNavController().navigate(R.id.action_SearchFragment_to_DetailsFragment)
     }
 
     override fun onDestroyView() {

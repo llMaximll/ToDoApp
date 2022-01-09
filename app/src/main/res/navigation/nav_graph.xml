@@ -22,7 +22,14 @@
             app:destination="@id/addFragment" />
         <action
             android:id="@+id/action_ExploreFragment_to_DetailsFragment"
-            app:destination="@id/detailsFragment" />
+            app:destination="@id/detailsFragment">
+
+            <argument
+                android:name="taskId"
+                app:argType="long"
+                app:nullable="false"/>
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/search_fragment"
@@ -49,5 +56,12 @@
         android:id="@+id/detailsFragment"
         android:name="com.github.llmaximll.todoapp.presentation.details.view.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+
+        <argument
+            android:name="taskId"
+            app:argType="long"
+            app:nullable="false"/>
+
+    </fragment>
 </navigation>

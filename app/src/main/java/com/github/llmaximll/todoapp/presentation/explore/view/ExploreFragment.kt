@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.llmaximll.todoapp.R
@@ -32,8 +34,8 @@ class ExploreFragment : Fragment() {
     private val categoriesAdapter = CategoriesAdapter { id ->
 
     }
-    private val tasksAdapter = TasksAdapter { id ->
-        findNavController().navigate(R.id.action_ExploreFragment_to_DetailsFragment)
+    private val tasksAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        TasksAdapter(requireContext(), ::onTaskClicked)
     }
 
     override fun onCreateView(
@@ -46,6 +48,9 @@ class ExploreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         setupListeners()
         setupLists()
@@ -142,6 +147,18 @@ class ExploreFragment : Fragment() {
 
     private fun hideLoadingCategories() {
 
+    }
+
+    private fun onTaskClicked(id: Long, view: View) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 500
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = 500
+        }
+        val extras = FragmentNavigatorExtras(view to view.transitionName)
+        val directions = ExploreFragmentDirections.actionExploreFragmentToDetailsFragment(id)
+        findNavController().navigate(directions, extras)
     }
 
     override fun onDestroyView() {
