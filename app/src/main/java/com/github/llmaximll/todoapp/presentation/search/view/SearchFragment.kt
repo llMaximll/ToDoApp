@@ -91,6 +91,7 @@ class SearchFragment : Fragment() {
                 hideLoading()
                 hideAndSetEmptyList()
                 binding.placeholderLinearLayout.isVisible = true
+                binding.placeholderImageView.setImageResource(R.drawable.not_found)
                 binding.placeholderTextView.setText(R.string.search_fragment_nothing_found)
             }
             is SearchResult.EmptyQuery -> {

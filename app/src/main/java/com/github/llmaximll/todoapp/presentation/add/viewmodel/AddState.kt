@@ -4,7 +4,13 @@ sealed class AddState {
     object Loading : AddState()
 
     sealed class InputError : AddState() {
-        object Title : InputError()
+
+        sealed class Title : InputError() {
+
+            object Empty : Title()
+
+            object NotUnique : Title()
+        }
 
         object Description : InputError()
     }

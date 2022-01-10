@@ -9,7 +9,9 @@
     <string name="add_fragment_enter_description">Enter the description</string>
     <string name="add_fragment_new_task">New task</string>
     <string name="add_fragment_today">Today</string>
-    <string name="add_fragment_error_title">The title cannot be empty</string>
+    <string name="add_fragment_error_title_empty">The title cannot be empty</string>
+    <string name="add_fragment_error_title_not_unique">The title must be unique</string>
+    <string name="add_fragment_creating_task">Creating a task</string>
     <string name="add_fragment_error_description">The description cannot be empty</string>
     <string name="search_fragment_nothing_found">Nothing found</string>
     <string name="search_fragment_error_search">Search error</string>

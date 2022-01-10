@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.llmaximll.todoapp.data.tasks.TasksRepository
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
+import com.github.llmaximll.todoapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
@@ -17,8 +19,13 @@ class AddViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
     private val _addState = MutableLiveData<AddState>(AddState.Loading)
-
     val addState: LiveData<AddState> get() = _addState
+
+    private val _titles = MutableStateFlow<List<String>>(emptyList())
+
+    init {
+        getAllTitles()
+    }
 
     fun add(
         title: String,
@@ -30,7 +37,10 @@ class AddViewModel @Inject constructor(
 
         when {
             (validatedTitle == null) -> {
-                _addState.value = AddState.InputError.Title
+                _addState.value = AddState.InputError.Title.Empty
+            }
+            (checkTitleNotUnique(validatedTitle)) -> {
+                _addState.value = AddState.InputError.Title.NotUnique
             }
             (validatedDescription == null) -> {
                 _addState.value = AddState.InputError.Description
@@ -52,6 +62,27 @@ class AddViewModel @Inject constructor(
         viewModelScope.launch {
             tasksRepository.insertTask(task)
             _addState.value = AddState.Success
+        }
+    }
+
+    private fun checkTitleNotUnique(title: Task.Title): Boolean {
+        val titles = _titles.value
+        titles.forEach {
+            if (title.value == it) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun getAllTitles() {
+        viewModelScope.launch {
+            when (val result = tasksRepository.getAllTitles()) {
+                is Result.Error -> Unit
+                is Result.Success -> {
+                    _titles.value = result.result
+                }
+            }
         }
     }
 }

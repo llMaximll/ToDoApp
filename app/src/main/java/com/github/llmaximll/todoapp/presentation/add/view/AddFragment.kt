@@ -73,7 +73,8 @@ class AddFragment : Fragment() {
 
     private fun handleAddInputError(error: AddState.InputError) {
         when (error) {
-            AddState.InputError.Title -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title)
+            AddState.InputError.Title.Empty -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title_empty)
+            AddState.InputError.Title.NotUnique -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title_not_unique)
             AddState.InputError.Description -> binding.descriptionInputLayout.showErrorResId(R.string.add_fragment_error_description)
         }
     }

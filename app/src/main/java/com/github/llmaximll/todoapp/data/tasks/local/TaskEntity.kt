@@ -2,9 +2,10 @@ package com.github.llmaximll.todoapp.data.tasks.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = TaskEntity.TABLE_NAME)
+@Entity(tableName = TaskEntity.TABLE_NAME, indices = [ Index(value = [ TaskEntity.TITLE ], unique = true) ])
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = TASK_ID)

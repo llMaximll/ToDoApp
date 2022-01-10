@@ -19,19 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/whats_up_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="18dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text="What's up, Maksim!"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar"/>
-
-    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/categories_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -43,7 +30,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/whats_up_textView"/>
+        app:layout_constraintTop_toBottomOf="@id/toolBar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categories_recyclerView"
