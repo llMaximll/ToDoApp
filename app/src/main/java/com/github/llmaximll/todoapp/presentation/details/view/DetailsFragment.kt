@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
@@ -29,6 +30,12 @@ class DetailsFragment : Fragment() {
 
     private val viewModel: DetailsViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
+    private val categoriesAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        val items = listOf(
+            Categories.PERSONAL.value, Categories.BUSINESS.value,
+            Categories.EDUCATION.value, Categories.SCIENCE.value)
+        ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +54,7 @@ class DetailsFragment : Fragment() {
 
         setupAnimationLayout()
         setupViews()
+        setupListeners()
     }
 
     private fun setupAnimationLayout() {
@@ -71,7 +79,8 @@ class DetailsFragment : Fragment() {
 
         binding.titleEditText.setText(state.task.title.value)
         binding.descriptionEditText.setText(state.task.description.value)
-        binding.textField.setText(state.task.category.value)
+        binding.textField.setText(state.task.category.value, false)
+        (binding.textField as? AutoCompleteTextView)?.setAdapter(categoriesAdapter)
     }
 
     private fun renderError() {
@@ -84,14 +93,13 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setupViews() {
-        val items = listOf(
-            Categories.PERSONAL.value,
-            Categories.BUSINESS.value,
-            Categories.EDUCATION.value,
-            Categories.SCIENCE.value,
-        )
-        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
-        (binding.textField as? AutoCompleteTextView)?.setAdapter(adapter)
+
+    }
+
+    private fun setupListeners() {
+        binding.toolBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onDestroyView() {

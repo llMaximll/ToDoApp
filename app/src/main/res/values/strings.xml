@@ -17,6 +17,7 @@
     <string name="search_fragment_error_search">Search error</string>
     <string name="search_fragment_enter_something">Enter something</string>
     <string name="details_fragment_error_task_loading">Task loading error</string>
+    <string name="details_fragment_task">Task</string>
     <string name="shared_element">sharedElement_</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>
