@@ -1,13 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/details_cardView"
-    tools:context=".presentation.details.view.DetailsFragment"
     android:transitionGroup="true"
-    android:transitionName="@string/shared_element">
+    tools:context=".presentation.add.view.AddFragment">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"/>
 
+    <LinearLayout
+        android:id="@+id/main_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleCentered="true"
+                app:title="@string/add_fragment_creating_task"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:id="@+id/title_inputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/add_fragment_enter_title"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="30"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/title_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:id="@+id/dropdownInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_inputLayout">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/textField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:id="@+id/description_inputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/add_fragment_enter_description"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="500"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dropdownInputLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:inputType="textMultiLine"
+                        android:maxLength="500"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_inputLayout"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

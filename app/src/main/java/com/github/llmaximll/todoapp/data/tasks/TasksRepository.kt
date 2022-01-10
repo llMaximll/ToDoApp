@@ -5,6 +5,7 @@ import com.github.llmaximll.todoapp.domain.tasks.models.Category
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
 import com.github.llmaximll.todoapp.utils.Result
 import com.github.llmaximll.todoapp.utils.mapSuccess
+import timber.log.Timber
 import javax.inject.Inject
 
 interface TasksRepository {
@@ -21,13 +22,12 @@ class TasksRepositoryImpl @Inject constructor(
 ) : TasksRepository {
     override suspend fun getTask(id: Long): Result<Task, Throwable?> {
         val task = tasksLocalDataSource.getById(id)
-        val entityResult = if (task != null) {
-            Result.Success(task)
+        val result = if (task != null) {
+            Result.Success(task.toModel())
         } else {
             Result.Error(task)
         }
-
-        return entityResult.mapSuccess { entity -> entity.toModel() }
+        return result
     }
 
     override suspend fun getCategories(): Result<List<Category>, Throwable?> {

@@ -9,7 +9,6 @@ interface TasksDao {
         SELECT *
         FROM ${TaskEntity.TABLE_NAME}
         WHERE ${TaskEntity.TASK_ID}=:id
-        LIMIT 1
     """)
     suspend fun getById(id: Long): TaskEntity?
 

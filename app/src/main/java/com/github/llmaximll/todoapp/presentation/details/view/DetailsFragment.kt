@@ -5,13 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.github.llmaximll.todoapp.R
+import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.databinding.FragmentDetailsBinding
+import com.github.llmaximll.todoapp.presentation.details.viewmodel.DetailsViewModel
+import com.github.llmaximll.todoapp.presentation.details.viewmodel.FetchDetailsState
+import com.github.llmaximll.todoapp.utils.showSnackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -20,6 +27,7 @@ class DetailsFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    private val viewModel: DetailsViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -33,9 +41,12 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupAnimationLayout()
+        viewModel.taskId = args.taskId
+        viewModel.state.observe(viewLifecycleOwner, ::render)
+        viewModel.fetchData()
 
-        Timber.i("Details | transitionName = ${binding.root.transitionName}")
+        setupAnimationLayout()
+        setupViews()
     }
 
     private fun setupAnimationLayout() {
@@ -45,6 +56,42 @@ class DetailsFragment : Fragment() {
             duration = 500
             scrimColor = Color.TRANSPARENT
         }
+    }
+
+    private fun render(state: FetchDetailsState) {
+        when (state) {
+            is FetchDetailsState.Loading -> showLoading(show = true)
+            is FetchDetailsState.Result -> renderResult(state)
+            is FetchDetailsState.Error -> renderError()
+        }
+    }
+
+    private fun renderResult(state: FetchDetailsState.Result) {
+        showLoading(show = false)
+
+        binding.titleEditText.setText(state.task.title.value)
+        binding.descriptionEditText.setText(state.task.description.value)
+        binding.textField.setText(state.task.category.value)
+    }
+
+    private fun renderError() {
+        view?.showSnackbar(R.string.details_fragment_error_task_loading)
+    }
+
+    private fun showLoading(show: Boolean) {
+        binding.mainLinearLayout.isVisible = !show
+        binding.indicator.isVisible = show
+    }
+
+    private fun setupViews() {
+        val items = listOf(
+            Categories.PERSONAL.value,
+            Categories.BUSINESS.value,
+            Categories.EDUCATION.value,
+            Categories.SCIENCE.value,
+        )
+        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
+        (binding.textField as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
     override fun onDestroyView() {

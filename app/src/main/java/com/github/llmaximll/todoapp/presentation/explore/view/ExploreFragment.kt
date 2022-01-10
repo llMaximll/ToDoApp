@@ -19,6 +19,7 @@ import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -127,6 +128,7 @@ class ExploreFragment : Fragment() {
     private fun handleTasks(state: TasksResult) {
         when (state) {
             is TasksResult.SuccessResult -> {
+                Timber.i("state.result=${state.result}")
                 tasksAdapter.submitList(state.result)
             }
             is TasksResult.ErrorResult -> {
