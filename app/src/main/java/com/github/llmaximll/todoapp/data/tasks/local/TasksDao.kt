@@ -27,10 +27,10 @@ interface TasksDao {
     suspend fun getAll(): List<TaskEntity?>?
 
     @Query("""
-        SELECT ${TaskEntity.TITLE}
+        SELECT ${TaskEntity.TASK_ID}, ${TaskEntity.TITLE}
         FROM ${TaskEntity.TABLE_NAME}
     """)
-    suspend fun getAllTitles(): List<String>?
+    suspend fun getAllTitlesAndIds(): List<TaskTitleIdEntity>?
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -38,6 +38,9 @@ interface TasksDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: TaskEntity): Long
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(task: TaskEntity): Int
 
     @Transaction
     @Query("DELETE FROM ${TaskEntity.TABLE_NAME}")

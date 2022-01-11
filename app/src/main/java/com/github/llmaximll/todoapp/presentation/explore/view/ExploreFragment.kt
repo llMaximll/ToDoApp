@@ -16,6 +16,7 @@ import com.github.llmaximll.todoapp.databinding.FragmentExploreBinding
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.CategoriesResult
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
+import com.github.llmaximll.todoapp.utils.safeNavigate
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,11 +79,13 @@ class ExploreFragment : Fragment() {
                     reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
                         duration = 500
                     }
-                    findNavController().navigate(R.id.action_ExploreFragment_to_SearchFragment)
+                    val directions = ExploreFragmentDirections.actionExploreFragmentToSearchFragment()
+                    findNavController().safeNavigate(directions)
                     true
                 }
                 R.id.notifications_fragment -> {
-                    findNavController().navigate(R.id.action_ExploreFragment_to_NotificationsFragment)
+                    val directions = ExploreFragmentDirections.actionExploreFragmentToNotificationsFragment()
+                    findNavController().safeNavigate(directions)
                     true
                 }
                 else -> false
@@ -128,7 +131,6 @@ class ExploreFragment : Fragment() {
     private fun handleTasks(state: TasksResult) {
         when (state) {
             is TasksResult.SuccessResult -> {
-                Timber.i("state.result=${state.result}")
                 tasksAdapter.submitList(state.result)
             }
             is TasksResult.ErrorResult -> {
@@ -158,9 +160,10 @@ class ExploreFragment : Fragment() {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = 500
         }
+        Timber.i("id=$id")
         val extras = FragmentNavigatorExtras(view to view.transitionName)
         val directions = ExploreFragmentDirections.actionExploreFragmentToDetailsFragment(id)
-        findNavController().navigate(directions, extras)
+        findNavController().safeNavigate(directions, extras)
     }
 
     override fun onDestroyView() {

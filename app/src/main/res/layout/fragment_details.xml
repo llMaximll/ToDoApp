@@ -34,6 +34,16 @@
                 app:title="@string/details_fragment_task"
                 app:navigationIcon="@drawable/ic_baseline_arrow_back_24"/>
 
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/update_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:trackCornerRadius="5dp"
+                app:showAnimationBehavior="inward"
+                app:hideAnimationBehavior="outward"/>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView

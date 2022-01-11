@@ -17,8 +17,6 @@ class TasksViewHolder(
         binding.titleTextView.text = task.title.value.titlecaseFirstCharIfItIsLowercase()
         itemView.transitionName = context.resources.getString(R.string.shared_element) + task.id
         setClickListener(onTaskClick, task)
-
-        Timber.i("Explore | transitionName = ${itemView.transitionName}")
     }
 
     private fun setClickListener(

@@ -1,8 +1,10 @@
 package com.github.llmaximll.todoapp.data.tasks
 
+import com.github.llmaximll.todoapp.data.tasks.local.TaskTitleIdEntity
 import com.github.llmaximll.todoapp.data.tasks.local.TasksLocalDataSource
 import com.github.llmaximll.todoapp.domain.tasks.models.Category
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
+import com.github.llmaximll.todoapp.domain.tasks.models.TaskTitleId
 import com.github.llmaximll.todoapp.utils.Result
 import com.github.llmaximll.todoapp.utils.mapSuccess
 import timber.log.Timber
@@ -12,9 +14,10 @@ interface TasksRepository {
     suspend fun getTask(id: Long): Result<Task, Throwable?>
     suspend fun getCategories(): Result<List<Category>, Throwable?>
     suspend fun getTasks(): Result<List<Task>, Throwable?>
-    suspend fun getAllTitles(): Result<List<String>, Throwable?>
+    suspend fun getAllTitlesAndIds(): Result<List<TaskTitleId>, Throwable?>
     suspend fun searchTasks(query: String): Result<List<Task>, Throwable?>
     suspend fun insertTask(task: Task): Result<Long, Throwable?>
+    suspend fun updateTask(task: Task): Result<Int, Throwable?>
 }
 
 class TasksRepositoryImpl @Inject constructor(
@@ -61,6 +64,17 @@ class TasksRepositoryImpl @Inject constructor(
         return result
     }
 
+    override suspend fun updateTask(task: Task): Result<Int, Throwable?> {
+        val entityTask = task.toEntity()
+        val request = tasksLocalDataSource.update(entityTask)
+        val result = if (request != -1) {
+            Result.Success(request)
+        } else {
+            Result.Error(null)
+        }
+        return result
+    }
+
     override suspend fun getTasks(): Result<List<Task>, Throwable?> {
         val tasks = tasksLocalDataSource.getAll()
         val result = if (tasks != null) {
@@ -71,10 +85,10 @@ class TasksRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun getAllTitles(): Result<List<String>, Throwable?> {
-        val titles = tasksLocalDataSource.getAllTitles()
-        val result = if (titles != null) {
-            Result.Success(titles)
+    override suspend fun getAllTitlesAndIds(): Result<List<TaskTitleId>, Throwable?> {
+        val task = tasksLocalDataSource.getAllTitlesAndIds()
+        val result = if (task != null) {
+            Result.Success(task.map { it.toModel() })
         } else {
             Result.Error(null)
         }

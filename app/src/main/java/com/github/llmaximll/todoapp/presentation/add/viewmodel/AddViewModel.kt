@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.github.llmaximll.todoapp.data.tasks.TasksRepository
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
+import com.github.llmaximll.todoapp.domain.tasks.models.TaskTitleId
 import com.github.llmaximll.todoapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -18,13 +20,13 @@ import kotlin.random.Random
 class AddViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
-    private val _addState = MutableLiveData<AddState>(AddState.Loading)
+    private val _addState = MutableLiveData<AddState>(AddState.Initial)
     val addState: LiveData<AddState> get() = _addState
 
-    private val _titles = MutableStateFlow<List<String>>(emptyList())
+    private val _titles = MutableStateFlow<List<TaskTitleId>>(emptyList())
 
     init {
-        getAllTitles()
+        getAllTitlesAndIds()
     }
 
     fun add(
@@ -32,6 +34,8 @@ class AddViewModel @Inject constructor(
         description: String,
         category: Categories
     ) {
+        _addState.value = AddState.Loading
+
         val validatedTitle = Task.Title.createIfValid(title)
         val validatedDescription = Task.Description.createIfValid(description)
 
@@ -59,30 +63,41 @@ class AddViewModel @Inject constructor(
             category = category,
             done = false
         )
+        Timber.i("id=${task.id}")
         viewModelScope.launch {
-            tasksRepository.insertTask(task)
-            _addState.value = AddState.Success
+            handleAdd(task)
         }
     }
 
     private fun checkTitleNotUnique(title: Task.Title): Boolean {
         val titles = _titles.value
         titles.forEach {
-            if (title.value == it) {
+            if (title.value == it.title.value) {
                 return true
             }
         }
         return false
     }
 
-    private fun getAllTitles() {
+    private fun getAllTitlesAndIds() {
         viewModelScope.launch {
-            when (val result = tasksRepository.getAllTitles()) {
+            when (val result = tasksRepository.getAllTitlesAndIds()) {
                 is Result.Error -> Unit
                 is Result.Success -> {
                     _titles.value = result.result
                 }
             }
         }
+    }
+
+    private suspend fun handleAdd(task: Task) {
+        when (val result = tasksRepository.insertTask(task)) {
+            is Result.Error -> _addState.value = AddState.Error
+            is Result.Success -> {
+                Timber.i("Add result=$result")
+                _addState.value = AddState.Success
+            }
+        }
+        _addState.value = AddState.Success
     }
 }

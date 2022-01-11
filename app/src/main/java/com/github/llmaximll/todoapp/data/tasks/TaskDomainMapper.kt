@@ -2,8 +2,10 @@ package com.github.llmaximll.todoapp.data.tasks
 
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.data.tasks.local.TaskEntity
+import com.github.llmaximll.todoapp.data.tasks.local.TaskTitleIdEntity
 import com.github.llmaximll.todoapp.domain.tasks.models.Category
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
+import com.github.llmaximll.todoapp.domain.tasks.models.TaskTitleId
 
 internal fun TaskEntity.toModel(): Task =
     Task(
@@ -12,6 +14,12 @@ internal fun TaskEntity.toModel(): Task =
         description = Task.Description(this.description),
         category = this.category,
         done = this.done
+    )
+
+internal fun TaskTitleIdEntity.toModel(): TaskTitleId =
+    TaskTitleId(
+        id = this.id,
+        title = Task.Title(this.title)
     )
 
 internal fun List<TaskEntity?>.toCategories(): List<Category> {

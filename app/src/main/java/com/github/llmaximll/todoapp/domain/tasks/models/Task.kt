@@ -9,7 +9,8 @@ data class Task(
     val category: Categories,
     val done: Boolean
 ) {
-    class Title(val value: String) {
+    @JvmInline
+    value class Title(val value: String) {
         companion object {
             fun createIfValid(value: String?): Title? {
                 return if ((value != null)
@@ -22,7 +23,8 @@ data class Task(
         }
     }
 
-    class Description(val value: String) {
+    @JvmInline
+    value class Description(val value: String) {
         companion object {
             fun createIfValid(value: String?): Description? {
                 return if ((value != null)

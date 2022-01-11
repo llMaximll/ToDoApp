@@ -13,11 +13,17 @@
     <string name="add_fragment_error_title_not_unique">The title must be unique</string>
     <string name="add_fragment_creating_task">Creating a task</string>
     <string name="add_fragment_error_description">The description cannot be empty</string>
+    <string name="add_fragment_error_db">Failed to add entry</string>
     <string name="search_fragment_nothing_found">Nothing found</string>
     <string name="search_fragment_error_search">Search error</string>
     <string name="search_fragment_enter_something">Enter something</string>
     <string name="details_fragment_error_task_loading">Task loading error</string>
     <string name="details_fragment_task">Task</string>
+    <string name="details_fragment_dialog_title">Unable to save the task</string>
+    <string name="details_fragment_dialog_message">Exit without saving?</string>
+    <string name="details_fragment_dialog_button_negative">To stay</string>
+    <string name="details_fragment_dialog_button_positive">Exit without saving</string>
+    <string name="detais_fragment_error_db">Failed to re-record</string>
     <string name="shared_element">sharedElement_</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>
