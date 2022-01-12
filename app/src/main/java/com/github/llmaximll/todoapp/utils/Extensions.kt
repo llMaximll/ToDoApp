@@ -1,6 +1,9 @@
 package com.github.llmaximll.todoapp.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Bitmap.createBitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
@@ -64,4 +68,15 @@ fun EditText.showKeyboard() {
 fun EditText.hideKeyboard() {
     val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun Context.vectorToBitmap(drawableId: Int): Bitmap? {
+    val drawable = AppCompatResources.getDrawable(this, drawableId) ?: return null
+    val bitmap = createBitmap(
+        drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+    ) ?: return null
+    val canvas = Canvas(bitmap)
+    drawable.setBounds(0, 0, canvas.width, canvas.height)
+    drawable.draw(canvas)
+    return bitmap
 }

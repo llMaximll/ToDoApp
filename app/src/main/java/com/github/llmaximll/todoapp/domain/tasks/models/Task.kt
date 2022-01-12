@@ -7,7 +7,8 @@ data class Task(
     val title: Title,
     val description: Description,
     val category: Categories,
-    val done: Boolean
+    val done: Boolean,
+    val date: Long
 ) {
     @JvmInline
     value class Title(val value: String) {

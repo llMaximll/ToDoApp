@@ -2,6 +2,7 @@ package com.github.llmaximll.todoapp.presentation.details.view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.*
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -101,6 +103,9 @@ class DetailsFragment : Fragment() {
         binding.descriptionEditText.setText(state.task.description.value)
         binding.textField.setText(state.task.category.value, false)
         (binding.textField as? AutoCompleteTextView)?.setAdapter(categoriesAdapter)
+
+        val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
+        binding.dateButton.text = dateString
     }
 
     private fun renderError() {

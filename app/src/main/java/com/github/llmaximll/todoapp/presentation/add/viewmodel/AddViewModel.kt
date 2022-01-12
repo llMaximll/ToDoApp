@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -25,14 +26,18 @@ class AddViewModel @Inject constructor(
 
     private val _titles = MutableStateFlow<List<TaskTitleId>>(emptyList())
 
+    var date: Calendar = Calendar.getInstance()
+
     init {
         getAllTitlesAndIds()
+        date.add(Calendar.DAY_OF_MONTH, 1)
     }
 
     fun add(
         title: String,
         description: String,
-        category: Categories
+        category: Categories,
+        date: Long = this.date.timeInMillis
     ) {
         _addState.value = AddState.Loading
 
@@ -50,18 +55,19 @@ class AddViewModel @Inject constructor(
                 _addState.value = AddState.InputError.Description
             }
             else -> {
-                executeAdd(title, description, category)
+                executeAdd(title, description, category, date)
             }
         }
     }
 
-    private fun executeAdd(title: String, description: String, category: Categories) {
+    private fun executeAdd(title: String, description: String, category: Categories, date: Long) {
         val task = Task(
             id = Random.nextLong(),
             title = Task.Title(title),
             description = Task.Description(description),
             category = category,
-            done = false
+            done = false,
+            date = date
         )
         Timber.i("id=${task.id}")
         viewModelScope.launch {

@@ -11,5 +11,6 @@ internal fun Task.toEntity(): TaskEntity =
         title = this.title.value,
         description = this.description.value,
         category = this.category,
-        done = this.done
+        done = this.done,
+        date = this.date
     )

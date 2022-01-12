@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,6 +35,8 @@ class DetailsViewModel @Inject constructor(
 
     private val _titles = MutableStateFlow<List<TaskTitleId>>(emptyList())
 
+    var date: Calendar = Calendar.getInstance()
+
     init {
         getAllTitlesAndIds()
     }
@@ -49,6 +52,11 @@ class DetailsViewModel @Inject constructor(
             is Result.Error -> FetchDetailsState.Error(IllegalArgumentException("Task not found"))
             is Result.Success -> {
                 initialTask = result.result
+
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = result.result.date
+                this.date = calendar
+
                 FetchDetailsState.Result(result.result)
             }
         }
@@ -58,7 +66,8 @@ class DetailsViewModel @Inject constructor(
         title: String,
         description: String,
         category: Categories,
-        done: Boolean
+        done: Boolean,
+        date: Long = this.date.timeInMillis
     ) {
         _updateState.value = UpdateState.Loading
 
@@ -81,18 +90,19 @@ class DetailsViewModel @Inject constructor(
                 _updateState.value = UpdateState.InputError.Description
             }
             else -> {
-                executeUpdate(title, description, category)
+                executeUpdate(title, description, category, date)
             }
         }
     }
 
-    private fun executeUpdate(title: String, description: String, category: Categories) {
+    private fun executeUpdate(title: String, description: String, category: Categories, date: Long) {
         val task = Task(
             id = taskId,
             title = Task.Title(title),
             description = Task.Description(description),
             category = category,
-            done = false
+            done = false,
+            date = date
         )
         viewModelScope.launch {
             handleUpdate(task)

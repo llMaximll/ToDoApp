@@ -13,7 +13,8 @@ internal fun TaskEntity.toModel(): Task =
         title = Task.Title(this.title),
         description = Task.Description(this.description),
         category = this.category,
-        done = this.done
+        done = this.done,
+        date = this.date
     )
 
 internal fun TaskTitleIdEntity.toModel(): TaskTitleId =

@@ -21,7 +21,10 @@ data class TaskEntity(
     val category: Categories,
 
     @ColumnInfo(name = DONE)
-    val done: Boolean
+    val done: Boolean,
+
+    @ColumnInfo(name = DATE)
+    val date: Long
 ) {
     companion object {
         const val TABLE_NAME = "tasks"
@@ -31,5 +34,6 @@ data class TaskEntity(
         const val DESCRIPTION = "description"
         const val CATEGORY = "category"
         const val DONE = "done"
+        const val DATE = "date"
     }
 }

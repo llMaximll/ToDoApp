@@ -1,6 +1,8 @@
 package com.github.llmaximll.todoapp.presentation.add.view
 
 import android.os.Bundle
+import android.text.format.DateFormat
+import android.text.format.DateFormat.is24HourFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +22,12 @@ import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddState
 import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddViewModel
 import com.github.llmaximll.todoapp.utils.showErrorResId
 import com.github.llmaximll.todoapp.utils.showSnackbar
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
@@ -61,6 +67,9 @@ class AddFragment : Fragment() {
         }
         binding.toolBar.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+        binding.dateButton.setOnClickListener {
+            showDatePicker()
         }
     }
 
@@ -103,7 +112,11 @@ class AddFragment : Fragment() {
             Categories.SCIENCE.value,
         )
         val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
+        binding.textField.setText(Categories.PERSONAL.value, false)
         (binding.textField as? AutoCompleteTextView)?.setAdapter(adapter)
+
+        val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
+        binding.dateButton.text = dateString
     }
 
     private fun setupAnimationLayout() {
@@ -115,6 +128,52 @@ class AddFragment : Fragment() {
             duration = 250
             addTarget(R.id.cardView)
         }
+    }
+
+    private fun showDatePicker() {
+        val customCalendar = Calendar.getInstance()
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker().apply {
+                setTitleText(R.string.add_fragment_date_picker_title)
+                setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            }.build()
+        datePicker.addOnPositiveButtonClickListener {
+            val date = datePicker.selection
+            if (date != null)
+                customCalendar.timeInMillis = date
+
+            viewModel.date.set(
+                customCalendar.get(Calendar.YEAR),
+                customCalendar.get(Calendar.MONTH),
+                customCalendar.get(Calendar.DAY_OF_MONTH)
+            )
+
+            val dateString = DateFormat.format("dd/MM/yyyy hh:mm", Date(viewModel.date.timeInMillis))
+            binding.dateButton.text = dateString
+
+            showTimePicker()
+        }
+        datePicker.show(parentFragmentManager, null)
+    }
+
+    private fun showTimePicker() {
+        val isSystem24Hour = is24HourFormat(requireContext())
+        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+        val timePicker =
+            MaterialTimePicker.Builder().apply {
+                setTimeFormat(clockFormat)
+                setHour(12)
+                setMinute(0)
+                setTitleText(R.string.add_fragment_time_picker_title)
+            }.build()
+        timePicker.addOnPositiveButtonClickListener {
+            viewModel.date.set(if (isSystem24Hour) Calendar.HOUR_OF_DAY else Calendar.HOUR, timePicker.hour)
+            viewModel.date.set(Calendar.MINUTE, timePicker.minute)
+
+            val dateString = DateFormat.format("dd/MM/yyyy hh:mm", Date(viewModel.date.timeInMillis))
+            binding.dateButton.text = dateString
+        }
+        timePicker.show(parentFragmentManager, null)
     }
 
     override fun onDestroyView() {
