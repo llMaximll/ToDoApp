@@ -5,6 +5,9 @@
     <string name="placeholder_in_development">In development</string>
     <string name="explore_fragment_categories">Categories</string>
     <string name="explore_fragment_today_tasks">Today\'s tasks</string>
+    <string name="explore_fragment_task_deleted">Task deleted</string>
+    <string name="explore_fragment_task_undo">Undo</string>
+    <string name="explore_fragment_filter_date">Date</string>
     <string name="add_fragment_enter_title">Enter the title</string>
     <string name="add_fragment_enter_description">Enter the description</string>
     <string name="add_fragment_new_task">New task</string>
@@ -23,7 +26,7 @@
     <string name="details_fragment_dialog_message">Exit without saving?</string>
     <string name="details_fragment_dialog_button_negative">To stay</string>
     <string name="details_fragment_dialog_button_positive">Exit without saving</string>
-    <string name="detais_fragment_error_db">Failed to re-record</string>
+    <string name="details_fragment_error_db">Failed to re-record</string>
     <string name="shared_element">sharedElement_</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.llmaximll.todoapp.data.tasks.TasksRepository
+import com.github.llmaximll.todoapp.domain.tasks.models.Task
 import com.github.llmaximll.todoapp.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,6 +54,18 @@ class ExploreViewModel @Inject constructor(
                 TasksResult.EmptyResult
             else
                 TasksResult.SuccessResult(tasks.result)
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            tasksRepository.deleteTask(task)
+        }
+    }
+
+    fun addTask(task: Task) {
+        viewModelScope.launch {
+            tasksRepository.insertTask(task)
         }
     }
 }

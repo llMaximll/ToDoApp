@@ -137,7 +137,7 @@ class DetailsFragment : Fragment() {
             is UpdateState.Error -> {
                 Timber.i("Error")
                 binding.updateIndicator.isGone = true
-                view?.showSnackbar(R.string.detais_fragment_error_db)
+                view?.showSnackbar(R.string.details_fragment_error_db)
                 shouldInterceptBackPress = false
                 requireActivity().onBackPressed()
             }

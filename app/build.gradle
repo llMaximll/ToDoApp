@@ -54,6 +54,7 @@ ext {
             kotlinCoroutines: "1.5.2",
             retrofit        : "2.9.0",
             room            : "2.4.0",
+            work_version    : "2.7.1"
     ]
 }
 
@@ -91,6 +92,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlinCoroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.kotlinCoroutines"
+
+    implementation "androidx.work:work-runtime-ktx:$versions.work_version"
+    implementation "androidx.work:work-gcm:$versions.work_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

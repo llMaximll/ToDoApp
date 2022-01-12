@@ -11,7 +11,7 @@ interface TasksLocalDataSource {
     suspend fun insert(task: TaskEntity): Long
     suspend fun update(task: TaskEntity): Int
     suspend fun deleteAll()
-    suspend fun delete(id: Long)
+    suspend fun delete(task: TaskEntity): Int
 }
 
 class TasksLocalDataSourceImpl @Inject constructor(
@@ -41,8 +41,7 @@ class TasksLocalDataSourceImpl @Inject constructor(
         tasksDao.deleteAll()
     }
 
-    override suspend fun delete(id: Long) {
-        tasksDao.delete(id)
-    }
+    override suspend fun delete(task: TaskEntity) =
+        tasksDao.delete(task)
 
 }

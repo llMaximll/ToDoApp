@@ -44,7 +44,13 @@
         android:id="@+id/addFragment"
         android:name="com.github.llmaximll.todoapp.presentation.add.view.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add">
+
+        <action
+            android:id="@+id/action_AddFragment_to_ExploreFragment"
+            app:destination="@id/explore_fragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.github.llmaximll.todoapp.presentation.details.view.DetailsFragment"

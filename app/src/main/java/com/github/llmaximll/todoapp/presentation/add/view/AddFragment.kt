@@ -72,7 +72,7 @@ class AddFragment : Fragment() {
         when (state) {
             AddState.Initial -> binding.addIndicator.isGone = true
             AddState.Loading -> binding.addIndicator.isVisible = true
-            AddState.Success -> {
+            is AddState.Success -> {
                 binding.addIndicator.isGone = true
                 findNavController().popBackStack(R.id.explore_fragment, false)
             }

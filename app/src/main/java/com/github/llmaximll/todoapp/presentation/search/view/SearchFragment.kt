@@ -1,9 +1,12 @@
 package com.github.llmaximll.todoapp.presentation.search.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -18,10 +21,12 @@ import com.github.llmaximll.todoapp.presentation.explore.view.TasksAdapter
 import com.github.llmaximll.todoapp.presentation.search.viewmodel.SearchResult
 import com.github.llmaximll.todoapp.presentation.search.viewmodel.SearchViewModel
 import com.github.llmaximll.todoapp.utils.afterTextChanged
+import com.github.llmaximll.todoapp.utils.showKeyboard
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -57,6 +62,7 @@ class SearchFragment : Fragment() {
 
         setupListeners()
         setupTasksList()
+        binding.searchEditText.showKeyboard()
         binding.searchEditText.afterTextChanged(viewModel::onNewQuery)
         viewModel.searchResult.observe(viewLifecycleOwner, ::handleTasksList)
     }

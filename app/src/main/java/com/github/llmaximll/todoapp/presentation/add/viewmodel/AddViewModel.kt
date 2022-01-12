@@ -95,9 +95,8 @@ class AddViewModel @Inject constructor(
             is Result.Error -> _addState.value = AddState.Error
             is Result.Success -> {
                 Timber.i("Add result=$result")
-                _addState.value = AddState.Success
+                _addState.value = AddState.Success(task.id)
             }
         }
-        _addState.value = AddState.Success
     }
 }

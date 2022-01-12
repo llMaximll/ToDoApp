@@ -18,6 +18,7 @@ interface TasksRepository {
     suspend fun searchTasks(query: String): Result<List<Task>, Throwable?>
     suspend fun insertTask(task: Task): Result<Long, Throwable?>
     suspend fun updateTask(task: Task): Result<Int, Throwable?>
+    suspend fun deleteTask(task: Task): Result<Int, Throwable?>
 }
 
 class TasksRepositoryImpl @Inject constructor(
@@ -67,7 +68,7 @@ class TasksRepositoryImpl @Inject constructor(
     override suspend fun updateTask(task: Task): Result<Int, Throwable?> {
         val entityTask = task.toEntity()
         val request = tasksLocalDataSource.update(entityTask)
-        val result = if (request != -1) {
+        val result = if (request != 0) {
             Result.Success(request)
         } else {
             Result.Error(null)
@@ -89,6 +90,17 @@ class TasksRepositoryImpl @Inject constructor(
         val task = tasksLocalDataSource.getAllTitlesAndIds()
         val result = if (task != null) {
             Result.Success(task.map { it.toModel() })
+        } else {
+            Result.Error(null)
+        }
+        return result
+    }
+
+    override suspend fun deleteTask(task: Task): Result<Int, Throwable?> {
+        val entityTask = task.toEntity()
+        val request = tasksLocalDataSource.delete(entityTask)
+        val result = if (request != 0) {
+            Result.Success(request)
         } else {
             Result.Error(null)
         }
