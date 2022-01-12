@@ -28,8 +28,7 @@ data class Task(
     value class Description(val value: String) {
         companion object {
             fun createIfValid(value: String?): Description? {
-                return if ((value != null)
-                    && (value.isNotBlank())) {
+                return if (value != null) {
                     Description(value)
                 } else {
                     null
