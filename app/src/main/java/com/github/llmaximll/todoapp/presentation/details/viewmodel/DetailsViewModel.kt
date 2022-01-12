@@ -76,7 +76,7 @@ class DetailsViewModel @Inject constructor(
 
         when {
             (initialTask?.isEqualTask(
-                Task.Title(title), Task.Description(description), category, done
+                Task.Title(title), Task.Description(description), category, done, date
             ) == true) -> {
                 _updateState.value = UpdateState.Success
             }
@@ -146,7 +146,8 @@ class DetailsViewModel @Inject constructor(
         title: Task.Title,
         description: Task.Description,
         category: Categories,
-        done: Boolean
+        done: Boolean,
+        date: Long
     ): Boolean {
         when {
             this == null -> return false
@@ -154,6 +155,7 @@ class DetailsViewModel @Inject constructor(
             this.description.value != description.value -> return false
             this.category != category -> return false
             this.done != done -> return false
+            this.date != date -> return false
         }
 
         return true
