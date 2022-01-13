@@ -1,19 +1,28 @@
 package com.github.llmaximll.todoapp.presentation.add.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.github.llmaximll.todoapp.data.tasks.TasksRepository
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
 import com.github.llmaximll.todoapp.domain.tasks.models.TaskTitleId
 import com.github.llmaximll.todoapp.utils.Result
+import com.github.llmaximll.todoapp.work.NotifyWorker
+import com.github.llmaximll.todoapp.work.NotifyWorker.Companion.NOTIFICATION_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.System.currentTimeMillis
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -102,6 +111,27 @@ class AddViewModel @Inject constructor(
             is Result.Success -> {
                 Timber.i("Add result=$result")
                 _addState.value = AddState.Success(task.id)
+            }
+        }
+    }
+
+    fun scheduleNotification(context: Context) {
+        viewModelScope.launch {
+            val customTime: Long = date.timeInMillis
+            val currentTime = currentTimeMillis()
+
+            if (customTime > currentTime) {
+                val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
+                val delay = customTime - currentTime
+
+                val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
+                    .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
+
+                val instanceWorkManager = WorkManager.getInstance(context)
+                instanceWorkManager.beginUniqueWork(NotifyWorker.NOTIFICATION_WORK, ExistingWorkPolicy.APPEND_OR_REPLACE, notificationWork)
+                    .enqueue()
+            } else {
+                Timber.i("Не удалось!")
             }
         }
     }

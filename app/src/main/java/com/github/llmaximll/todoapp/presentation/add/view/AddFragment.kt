@@ -83,6 +83,7 @@ class AddFragment : Fragment() {
             AddState.Loading -> binding.addIndicator.isVisible = true
             is AddState.Success -> {
                 binding.addIndicator.isGone = true
+                viewModel.scheduleNotification(requireContext())
                 findNavController().popBackStack(R.id.explore_fragment, false)
             }
             AddState.Error -> {
@@ -148,7 +149,7 @@ class AddFragment : Fragment() {
                 customCalendar.get(Calendar.DAY_OF_MONTH)
             )
 
-            val dateString = DateFormat.format("dd/MM/yyyy hh:mm", Date(viewModel.date.timeInMillis))
+            val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
             binding.dateButton.text = dateString
 
             showTimePicker()
@@ -170,7 +171,7 @@ class AddFragment : Fragment() {
             viewModel.date.set(if (isSystem24Hour) Calendar.HOUR_OF_DAY else Calendar.HOUR, timePicker.hour)
             viewModel.date.set(Calendar.MINUTE, timePicker.minute)
 
-            val dateString = DateFormat.format("dd/MM/yyyy hh:mm", Date(viewModel.date.timeInMillis))
+            val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
             binding.dateButton.text = dateString
         }
         timePicker.show(parentFragmentManager, null)
