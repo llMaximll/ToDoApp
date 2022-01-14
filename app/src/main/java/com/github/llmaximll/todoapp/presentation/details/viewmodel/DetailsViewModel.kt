@@ -1,9 +1,11 @@
 package com.github.llmaximll.todoapp.presentation.details.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.github.llmaximll.todoapp.data.tasks.TasksRepository
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.domain.tasks.models.Task
@@ -33,6 +35,11 @@ class DetailsViewModel @Inject constructor(
         get() = _updateState
             .asLiveData(viewModelScope.coroutineContext)
 
+    private val _deleteState = MutableStateFlow<DeleteState>(DeleteState.Initial)
+    val deleteState: LiveData<DeleteState>
+        get() = _deleteState
+            .asLiveData(viewModelScope.coroutineContext)
+
     private val _titles = MutableStateFlow<List<TaskTitleId>>(emptyList())
 
     var date: Calendar = Calendar.getInstance()
@@ -57,7 +64,11 @@ class DetailsViewModel @Inject constructor(
                 calendar.timeInMillis = result.result.date
                 this.date = calendar
 
-                FetchDetailsState.Result(result.result)
+                if (initialTask != null) {
+                    FetchDetailsState.Result(result.result)
+                } else {
+                    FetchDetailsState.Error(IllegalArgumentException("Task not found"))
+                }
             }
         }
     }
@@ -159,6 +170,22 @@ class DetailsViewModel @Inject constructor(
         }
 
         return true
+    }
+
+    fun deleteTask(context: Context) {
+        viewModelScope.launch {
+            when (tasksRepository.deleteTask(initialTask!!)) {
+                is Result.Error -> _deleteState.value = DeleteState.Error
+                is Result.Success -> {
+                    deleteWork(context)
+                    _deleteState.value = DeleteState.Success
+                }
+            }
+        }
+    }
+
+    private fun deleteWork(context: Context) {
+        WorkManager.getInstance(context).cancelAllWorkByTag(taskId.toString())
     }
 
 }

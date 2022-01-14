@@ -16,6 +16,7 @@ import com.github.llmaximll.todoapp.domain.tasks.models.TaskTitleId
 import com.github.llmaximll.todoapp.utils.Result
 import com.github.llmaximll.todoapp.work.NotifyWorker
 import com.github.llmaximll.todoapp.work.NotifyWorker.Companion.NOTIFICATION_ID
+import com.github.llmaximll.todoapp.work.NotifyWorker.Companion.NOTIFICATION_SUBTITLE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -62,6 +63,9 @@ class AddViewModel @Inject constructor(
             }
             (validatedDescription == null) -> {
                 _addState.value = AddState.InputError.Description
+            }
+            (isValidDate(this.date.timeInMillis).not()) -> {
+                _addState.value = AddState.InputError.Date
             }
             else -> {
                 executeAdd(title, description, category, date)
@@ -115,24 +119,29 @@ class AddViewModel @Inject constructor(
         }
     }
 
-    fun scheduleNotification(context: Context) {
+    private fun isValidDate(date: Long) =
+        date > currentTimeMillis()
+
+    fun scheduleNotification(context: Context, title: String, workId: Long) {
         viewModelScope.launch {
             val customTime: Long = date.timeInMillis
             val currentTime = currentTimeMillis()
 
-            if (customTime > currentTime) {
-                val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
-                val delay = customTime - currentTime
+            val data = Data.Builder().apply {
+                putLong(NOTIFICATION_ID, 0)
+                putString(NOTIFICATION_SUBTITLE, title)
+            }.build()
+            val delay = customTime - currentTime
 
-                val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
-                    .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
+            val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java).apply {
+                setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                setInputData(data)
+                addTag(workId.toString())
+            }.build()
 
-                val instanceWorkManager = WorkManager.getInstance(context)
-                instanceWorkManager.beginUniqueWork(NotifyWorker.NOTIFICATION_WORK, ExistingWorkPolicy.APPEND_OR_REPLACE, notificationWork)
-                    .enqueue()
-            } else {
-                Timber.i("Не удалось!")
-            }
+            val instanceWorkManager = WorkManager.getInstance(context)
+            instanceWorkManager.beginUniqueWork(NotifyWorker.NOTIFICATION_WORK, ExistingWorkPolicy.APPEND_OR_REPLACE, notificationWork)
+                .enqueue()
         }
     }
 }

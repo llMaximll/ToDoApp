@@ -1,7 +1,5 @@
 package com.github.llmaximll.todoapp.presentation.add.viewmodel
 
-import com.github.llmaximll.todoapp.domain.tasks.models.Task
-
 sealed class AddState {
     object Initial : AddState()
 
@@ -17,6 +15,8 @@ sealed class AddState {
         }
 
         object Description : InputError()
+
+        object Date : InputError()
     }
 
     object Error : AddState()

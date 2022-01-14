@@ -23,18 +23,18 @@ import com.github.llmaximll.todoapp.utils.vectorToBitmap
 class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
-        sendNotification(id)
+        val title = inputData.getString(NOTIFICATION_SUBTITLE)
+            ?: applicationContext.getString(R.string.notification_title)
+        sendNotification(id, title)
 
         return success()
     }
 
-    private fun sendNotification(id: Int) {
+    private fun sendNotification(id: Int, title: String) {
         val notificationManager =
             applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        val bitmap = applicationContext.vectorToBitmap(R.drawable.ic_launcher_background)
-        val titleNotification = applicationContext.getString(R.string.notification_title)
-        val subtitleNotification = applicationContext.getString(R.string.notification_subtitle)
+        val bitmap = applicationContext.vectorToBitmap(R.drawable.ic_launcher_foreground)
 
         val pendingIntent = NavDeepLinkBuilder(applicationContext).apply {
             setGraph(R.navigation.nav_graph)
@@ -42,8 +42,8 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
         }.createPendingIntent()
 
         val notification = Builder(applicationContext, NOTIFICATION_CHANNEL).apply {
-            setLargeIcon(bitmap).setSmallIcon(R.drawable.ic_launcher_foreground)
-            setContentTitle(titleNotification).setContentText(subtitleNotification)
+            setLargeIcon(bitmap).setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
+            setContentTitle(title)
             setDefaults(DEFAULT_ALL).setContentIntent(pendingIntent).setAutoCancel(true)
         }
         notification.priority = PRIORITY_MAX
@@ -74,6 +74,7 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
         const val NOTIFICATION_NAME = "ToDoApp"
         const val NOTIFICATION_CHANNEL = "ToDoApp_channel_01"
         const val NOTIFICATION_WORK = "ToDoApp_notification_work"
+        const val NOTIFICATION_SUBTITLE = "ToDoApp_notification_subtitle"
     }
 
 }

@@ -20,6 +20,7 @@
     <string name="add_fragment_date_specify">Specify the date</string>
     <string name="add_fragment_date_picker_title">Select date</string>
     <string name="add_fragment_time_picker_title">Select time</string>
+    <string name="add_fragment_error_invalid_date">Invalid date</string>
     <string name="search_fragment_nothing_found">Nothing found</string>
     <string name="search_fragment_error_search">Search error</string>
     <string name="search_fragment_enter_something">Enter something</string>
@@ -30,9 +31,14 @@
     <string name="details_fragment_dialog_button_negative">To stay</string>
     <string name="details_fragment_dialog_button_positive">Exit without saving</string>
     <string name="details_fragment_error_db">Failed to re-record</string>
+    <string name="details_fragment_menu_delete">Delete a task</string>
+    <string name="details_fragment_dialog_delete_title">Deleting a task</string>
+    <string name="details_fragment_dialog_delete_message">After deleting, it will be impossible to restore the task. Delete a task?</string>
+    <string name="details_fragment_dialog_delete_negative_button">Do not delete</string>
+    <string name="details_fragment_dialog_delete_positive_button">Delete a task</string>
+    <string name="details_fragment_error_delete">Failed to delete the task</string>
     <string name="shared_element">sharedElement_</string>
-    <string name="notification_title">Title</string>
-    <string name="notification_subtitle">Subtitle</string>
+    <string name="notification_title">ToDoApp</string>
     <!-- Strings used for fragments for navigation -->
     <string name="explore_fragment_label">Explore Fragment</string>
     <string name="search_fragment_label">Search Fragment</string>

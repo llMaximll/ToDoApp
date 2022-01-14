@@ -22,6 +22,8 @@ import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddState
 import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddViewModel
 import com.github.llmaximll.todoapp.utils.showErrorResId
 import com.github.llmaximll.todoapp.utils.showSnackbar
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -83,7 +85,11 @@ class AddFragment : Fragment() {
             AddState.Loading -> binding.addIndicator.isVisible = true
             is AddState.Success -> {
                 binding.addIndicator.isGone = true
-                viewModel.scheduleNotification(requireContext())
+                viewModel.scheduleNotification(
+                    requireContext(),
+                    binding.titleEditText.text.toString(),
+                    state.taskId
+                )
                 findNavController().popBackStack(R.id.explore_fragment, false)
             }
             AddState.Error -> {
@@ -102,6 +108,7 @@ class AddFragment : Fragment() {
             AddState.InputError.Title.Empty -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title_empty)
             AddState.InputError.Title.NotUnique -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title_not_unique)
             AddState.InputError.Description -> binding.descriptionInputLayout.showErrorResId(R.string.add_fragment_error_description)
+            AddState.InputError.Date -> binding.root.showSnackbar(R.string.add_fragment_error_invalid_date)
         }
     }
 
@@ -132,9 +139,32 @@ class AddFragment : Fragment() {
     }
 
     private fun showDatePicker() {
+
+        fun limitRange(): CalendarConstraints.Builder {
+            val constraintsBuilderRange = CalendarConstraints.Builder()
+
+            val calendarStart: Calendar = GregorianCalendar.getInstance()
+            val calendarEnd: Calendar = GregorianCalendar.getInstance()
+
+            calendarStart.set(Calendar.DAY_OF_MONTH, calendarStart.get(Calendar.DAY_OF_MONTH))
+            calendarStart.add(Calendar.DAY_OF_MONTH, -1)
+            calendarEnd.add(Calendar.YEAR, 5)
+
+            val minDate = calendarStart.timeInMillis
+            val maxDate = calendarEnd.timeInMillis
+
+            constraintsBuilderRange.setStart(minDate)
+            constraintsBuilderRange.setEnd(maxDate)
+
+            val dateValidatorMin = DateValidatorPointForward.from(minDate)
+
+            return constraintsBuilderRange.setValidator(dateValidatorMin)
+        }
+
         val customCalendar = Calendar.getInstance()
         val datePicker =
             MaterialDatePicker.Builder.datePicker().apply {
+                setCalendarConstraints(limitRange().build())
                 setTitleText(R.string.add_fragment_date_picker_title)
                 setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             }.build()

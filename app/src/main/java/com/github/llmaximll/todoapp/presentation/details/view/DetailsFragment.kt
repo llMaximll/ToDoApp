@@ -19,6 +19,7 @@ import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.data.tasks.local.Categories
 import com.github.llmaximll.todoapp.data.tasks.local.Categories.Companion.toCategory
 import com.github.llmaximll.todoapp.databinding.FragmentDetailsBinding
+import com.github.llmaximll.todoapp.presentation.details.viewmodel.DeleteState
 import com.github.llmaximll.todoapp.presentation.details.viewmodel.DetailsViewModel
 import com.github.llmaximll.todoapp.presentation.details.viewmodel.FetchDetailsState
 import com.github.llmaximll.todoapp.presentation.details.viewmodel.UpdateState
@@ -76,6 +77,7 @@ class DetailsFragment : Fragment() {
         viewModel.taskId = args.taskId
         viewModel.state.observe(viewLifecycleOwner, ::render)
         viewModel.updateState.observe(viewLifecycleOwner, ::handleUpdateState)
+        viewModel.deleteState.observe(viewLifecycleOwner, ::handleDeleteState)
         viewModel.fetchData()
 
         setupAnimationLayout()
@@ -124,6 +126,15 @@ class DetailsFragment : Fragment() {
         binding.toolBar.setNavigationOnClickListener {
             onBackPressed()
         }
+        binding.toolBar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.delete_button -> {
+                    showDialogDelete()
+                    true
+                }
+                else -> false
+            }
+        }
         binding.dateButton.setOnClickListener {
             showDatePicker()
         }
@@ -132,30 +143,30 @@ class DetailsFragment : Fragment() {
     private fun handleUpdateState(state: UpdateState) {
         when (state) {
             UpdateState.Initial -> {
-                Timber.i("Initial")
+                Timber.i("Update | Initial")
                 binding.updateIndicator.isGone = true
             }
             UpdateState.Loading -> {
-                Timber.i("Loading")
+                Timber.i("Update | Loading")
                 binding.updateIndicator.isVisible = true
             }
             UpdateState.Success -> {
-                Timber.i("Success")
+                Timber.i("Update | Success")
                 binding.updateIndicator.isGone = true
                 shouldInterceptBackPress = false
                 requireActivity().onBackPressed()
             }
             is UpdateState.Error -> {
-                Timber.i("Error")
+                Timber.i("Update | Error")
                 binding.updateIndicator.isGone = true
                 view?.showSnackbar(R.string.details_fragment_error_db)
                 shouldInterceptBackPress = false
                 requireActivity().onBackPressed()
             }
             is UpdateState.InputError -> {
-                Timber.i("InputError")
+                Timber.i("Update | InputError")
                 binding.updateIndicator.isGone = true
-                showDialog()
+                showDialogExit()
                 handleUpdateInputError(state)
             }
         }
@@ -166,6 +177,26 @@ class DetailsFragment : Fragment() {
             UpdateState.InputError.Title.Empty -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title_empty)
             UpdateState.InputError.Title.NotUnique -> binding.titleInputLayout.showErrorResId(R.string.add_fragment_error_title_not_unique)
             UpdateState.InputError.Description -> binding.descriptionInputLayout.showErrorResId(R.string.add_fragment_error_description)
+        }
+    }
+
+    private fun handleDeleteState(state: DeleteState) {
+        when (state) {
+            DeleteState.Initial -> {
+                Timber.i("Delete | Initial")
+            }
+            DeleteState.Loading -> {
+                Timber.i("Delete | Loading")
+            }
+            DeleteState.Success -> {
+                Timber.i("Delete | Success")
+                shouldInterceptBackPress = false
+                requireActivity().onBackPressed()
+            }
+            DeleteState.Error -> {
+                Timber.i("Delete | Error")
+                view?.showSnackbar(R.string.details_fragment_error_delete)
+            }
         }
     }
 
@@ -183,14 +214,29 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun showDialog() {
+    private fun showDialogDelete() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.details_fragment_dialog_delete_title)
+            setMessage(R.string.details_fragment_dialog_delete_message)
+            setNegativeButton(R.string.details_fragment_dialog_delete_negative_button) { dialog, _ ->
+                dialog.dismiss()
+            }
+            setPositiveButton(R.string.details_fragment_dialog_delete_positive_button) { dialog, _ ->
+                viewModel.deleteTask(requireContext())
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
+    private fun showDialogExit() {
         val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.details_fragment_dialog_title)
             setMessage(R.string.details_fragment_dialog_message)
-            setNegativeButton(R.string.details_fragment_dialog_button_negative) { dialog, which ->
+            setNegativeButton(R.string.details_fragment_dialog_button_negative) { dialog, _ ->
                 dialog.dismiss()
             }
-            setPositiveButton(R.string.details_fragment_dialog_button_positive) { dialog, which ->
+            setPositiveButton(R.string.details_fragment_dialog_button_positive) { dialog, _ ->
                 shouldInterceptBackPress = false
                 requireActivity().onBackPressed()
                 dialog.dismiss()
