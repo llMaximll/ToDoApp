@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.doOnPreDraw
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -68,9 +67,6 @@ class ExploreFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.toolBar.setNavigationOnClickListener {
-            requireActivity().findViewById<DrawerLayout>(R.id.drawerLayout).open()
-        }
         binding.toolBar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.search_fragment -> {
@@ -81,11 +77,6 @@ class ExploreFragment : Fragment() {
                         duration = 500
                     }
                     val directions = ExploreFragmentDirections.actionExploreFragmentToSearchFragment()
-                    findNavController().safeNavigate(directions)
-                    true
-                }
-                R.id.notifications_fragment -> {
-                    val directions = ExploreFragmentDirections.actionExploreFragmentToNotificationsFragment()
                     findNavController().safeNavigate(directions)
                     true
                 }
@@ -166,7 +157,6 @@ class ExploreFragment : Fragment() {
         val directions = ExploreFragmentDirections.actionExploreFragmentToDetailsFragment(id)
         findNavController().safeNavigate(directions, extras)
     }
-
     private fun showTasksMenu(v: View) {
         val listPopupWindow = ListPopupWindow(
             requireContext(),

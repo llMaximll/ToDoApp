@@ -13,6 +13,7 @@ import android.media.RingtoneManager.getDefaultUri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.O
 import androidx.core.app.NotificationCompat.*
+import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.ListenableWorker.Result.success
 import androidx.work.Worker
@@ -23,14 +24,15 @@ import com.github.llmaximll.todoapp.utils.vectorToBitmap
 class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
+        val workId = inputData.getLong(NOTIFICATION_WORK_ID, 0)
         val title = inputData.getString(NOTIFICATION_SUBTITLE)
             ?: applicationContext.getString(R.string.notification_title)
-        sendNotification(id, title)
+        sendNotification(id, workId, title)
 
         return success()
     }
 
-    private fun sendNotification(id: Int, title: String) {
+    private fun sendNotification(id: Int, workId: Long, title: String) {
         val notificationManager =
             applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
@@ -38,7 +40,8 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
 
         val pendingIntent = NavDeepLinkBuilder(applicationContext).apply {
             setGraph(R.navigation.nav_graph)
-            setDestination(R.id.notifications_fragment)
+            setDestination(R.id.detailsFragment)
+            setArguments(bundleOf("taskId" to workId))
         }.createPendingIntent()
 
         val notification = Builder(applicationContext, NOTIFICATION_CHANNEL).apply {
@@ -74,6 +77,7 @@ class NotifyWorker(context: Context, params: WorkerParameters) : Worker(context,
         const val NOTIFICATION_NAME = "ToDoApp"
         const val NOTIFICATION_CHANNEL = "ToDoApp_channel_01"
         const val NOTIFICATION_WORK = "ToDoApp_notification_work"
+        const val NOTIFICATION_WORK_ID = "ToDoApp_notification_work_id"
         const val NOTIFICATION_SUBTITLE = "ToDoApp_notification_subtitle"
     }
 

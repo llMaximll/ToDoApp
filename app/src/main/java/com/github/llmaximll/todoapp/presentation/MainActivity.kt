@@ -31,11 +31,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
-
-        init()
-    }
-
-    private fun init() {
-        binding.navigationView.setupWithNavController(navController)
     }
 }

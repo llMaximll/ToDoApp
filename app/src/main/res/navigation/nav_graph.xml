@@ -15,9 +15,6 @@
             android:id="@+id/action_ExploreFragment_to_SearchFragment"
             app:destination="@id/search_fragment" />
         <action
-            android:id="@+id/action_ExploreFragment_to_NotificationsFragment"
-            app:destination="@id/notifications_fragment" />
-        <action
             android:id="@+id/action_ExploreFragment_to_AddFragment"
             app:destination="@id/addFragment" />
         <action
@@ -35,11 +32,6 @@
             app:destination="@id/detailsFragment"/>
 
     </fragment>
-    <fragment
-        android:id="@+id/notifications_fragment"
-        android:name="com.github.llmaximll.todoapp.presentation.notifications.NotificationsFragment"
-        android:label="@string/notifications_fragment_label"
-        tools:layout="@layout/fragment_notifications"/>
     <fragment
         android:id="@+id/addFragment"
         android:name="com.github.llmaximll.todoapp.presentation.add.view.AddFragment"

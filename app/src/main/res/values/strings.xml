@@ -8,6 +8,7 @@
     <string name="explore_fragment_task_deleted">Task deleted</string>
     <string name="explore_fragment_task_undo">Undo</string>
     <string name="explore_fragment_filter_date">Date</string>
+    <string name="explore_fragment_toolbar_title">Tasks</string>
     <string name="add_fragment_enter_title">Enter the title</string>
     <string name="add_fragment_enter_description">Enter the description</string>
     <string name="add_fragment_new_task">New task</string>

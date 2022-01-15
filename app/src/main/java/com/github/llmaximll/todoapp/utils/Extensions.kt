@@ -98,6 +98,7 @@ fun ViewModel.scheduleNotification(context: Context, title: String, workId: Long
 
         val data = Data.Builder().apply {
             putLong(NotifyWorker.NOTIFICATION_ID, 0)
+            putLong(NotifyWorker.NOTIFICATION_WORK_ID, workId)
             putString(NotifyWorker.NOTIFICATION_SUBTITLE, title)
         }.build()
         val delay = customTime - currentTime
