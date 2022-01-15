@@ -78,6 +78,7 @@ class DetailsFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner, ::render)
         viewModel.updateState.observe(viewLifecycleOwner, ::handleUpdateState)
         viewModel.deleteState.observe(viewLifecycleOwner, ::handleDeleteState)
+        viewModel.taskDoneState.observe(viewLifecycleOwner, ::handleDoneState)
         viewModel.fetchData()
 
         setupAnimationLayout()
@@ -90,6 +91,16 @@ class DetailsFragment : Fragment() {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = 500
             scrimColor = Color.TRANSPARENT
+        }
+    }
+
+    private fun handleDoneState(state: Boolean) {
+        if (state.not()) {
+            binding.doneButton.text = getString(R.string.details_fragment_button_done)
+            setEnableAll(false)
+        } else {
+            binding.doneButton.text = getString(R.string.details_fragment_button_not_done)
+            setEnableAll(true)
         }
     }
 
@@ -111,10 +122,25 @@ class DetailsFragment : Fragment() {
 
         val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
         binding.dateButton.text = dateString
+
+        if (state.task.done.not()) {
+            binding.doneButton.text = getString(R.string.details_fragment_button_done)
+            setEnableAll(false)
+        } else {
+            binding.doneButton.text = getString(R.string.details_fragment_button_not_done)
+            setEnableAll(true)
+        }
     }
 
     private fun renderError() {
         view?.showSnackbar(R.string.details_fragment_error_task_loading)
+    }
+
+    private fun setEnableAll(enable: Boolean = true) {
+        binding.titleInputLayout.isEnabled = enable
+        binding.dropdownInputLayout.isEnabled = enable
+        binding.dateButton.isEnabled = enable
+        binding.descriptionInputLayout.isEnabled = enable
     }
 
     private fun showLoading(show: Boolean) {
@@ -137,6 +163,9 @@ class DetailsFragment : Fragment() {
         }
         binding.dateButton.setOnClickListener {
             showDatePicker()
+        }
+        binding.doneButton.setOnClickListener {
+            viewModel.toggleDoneState()
         }
     }
 
@@ -209,7 +238,6 @@ class DetailsFragment : Fragment() {
                 title = binding.titleEditText.text.toString(),
                 description = binding.descriptionEditText.text.toString(),
                 category = binding.textField.text.toString().toCategory(),
-                done = false
             )
         }
     }

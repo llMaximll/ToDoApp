@@ -37,6 +37,8 @@
     <string name="details_fragment_dialog_delete_negative_button">Do not delete</string>
     <string name="details_fragment_dialog_delete_positive_button">Delete a task</string>
     <string name="details_fragment_error_delete">Failed to delete the task</string>
+    <string name="details_fragment_button_done">Mark Completed</string>
+    <string name="details_fragment_button_not_done">Mark as incomplete</string>
     <string name="shared_element">sharedElement_</string>
     <string name="notification_title">ToDoApp</string>
     <!-- Strings used for fragments for navigation -->

@@ -148,4 +148,16 @@
 
     </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/done_button"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="16dp"
+        android:text="@string/details_fragment_button_done"
+        android:layout_gravity="bottom"/>
+
 </androidx.cardview.widget.CardView>

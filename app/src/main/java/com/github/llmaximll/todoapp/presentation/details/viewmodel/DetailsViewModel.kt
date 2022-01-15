@@ -23,7 +23,12 @@ class DetailsViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
     var taskId: Long = -1L
-    private var initialTask: Task? = null
+    var initialTask: Task? = null
+
+    private val _taskDoneState = MutableStateFlow(false)
+    val taskDoneState: LiveData<Boolean>
+        get() = _taskDoneState
+            .asLiveData(viewModelScope.coroutineContext)
 
     private val _state = MutableStateFlow<FetchDetailsState>(FetchDetailsState.Loading)
     val state: LiveData<FetchDetailsState>
@@ -65,6 +70,7 @@ class DetailsViewModel @Inject constructor(
                 this.date = calendar
 
                 if (initialTask != null) {
+                    _taskDoneState.value = initialTask!!.done
                     FetchDetailsState.Result(result.result)
                 } else {
                     FetchDetailsState.Error(IllegalArgumentException("Task not found"))
@@ -77,7 +83,7 @@ class DetailsViewModel @Inject constructor(
         title: String,
         description: String,
         category: Categories,
-        done: Boolean,
+        done: Boolean = _taskDoneState.value,
         date: Long = this.date.timeInMillis
     ) {
         _updateState.value = UpdateState.Loading
@@ -101,18 +107,18 @@ class DetailsViewModel @Inject constructor(
                 _updateState.value = UpdateState.InputError.Description
             }
             else -> {
-                executeUpdate(title, description, category, date)
+                executeUpdate(title, description, category, done, date)
             }
         }
     }
 
-    private fun executeUpdate(title: String, description: String, category: Categories, date: Long) {
+    private fun executeUpdate(title: String, description: String, category: Categories, done: Boolean, date: Long) {
         val task = Task(
             id = taskId,
             title = Task.Title(title),
             description = Task.Description(description),
             category = category,
-            done = false,
+            done = done,
             date = date
         )
         viewModelScope.launch {
@@ -186,6 +192,12 @@ class DetailsViewModel @Inject constructor(
 
     private fun deleteWork(context: Context) {
         WorkManager.getInstance(context).cancelAllWorkByTag(taskId.toString())
+    }
+
+    fun toggleDoneState() {
+        Timber.i("toggleDoneState | ${_taskDoneState.value}")
+        _taskDoneState.value = !_taskDoneState.value
+        Timber.i("toggleDoneState | ${_taskDoneState.value}")
     }
 
 }
