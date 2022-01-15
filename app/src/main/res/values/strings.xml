@@ -3,8 +3,8 @@
     <string name="action_search">Search</string>
     <string name="action_notifications">Notifications</string>
     <string name="placeholder_in_development">In development</string>
-    <string name="explore_fragment_categories">Categories</string>
-    <string name="explore_fragment_today_tasks">Today\'s tasks</string>
+    <string name="explore_fragment_all_tasks">All tasks</string>
+    <string name="explore_fragment_overdue_tasks">Overdue</string>
     <string name="explore_fragment_task_deleted">Task deleted</string>
     <string name="explore_fragment_task_undo">Undo</string>
     <string name="explore_fragment_filter_date">Date</string>

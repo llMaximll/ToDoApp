@@ -1,12 +1,9 @@
 package com.github.llmaximll.todoapp.presentation.search.view
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -97,7 +94,6 @@ class SearchFragment : Fragment() {
                 hideLoading()
                 hideAndSetEmptyList()
                 binding.placeholderLinearLayout.isVisible = true
-                binding.placeholderImageView.setImageResource(R.drawable.not_found)
                 binding.placeholderTextView.setText(R.string.search_fragment_nothing_found)
             }
             is SearchResult.EmptyQuery -> {

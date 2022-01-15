@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.doOnPreDraw
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -14,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.databinding.FragmentExploreBinding
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
+import com.github.llmaximll.todoapp.presentation.explore.viewmodel.FilterTasks
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
 import com.github.llmaximll.todoapp.utils.safeNavigate
+import com.github.llmaximll.todoapp.utils.toListAll
+import com.github.llmaximll.todoapp.utils.toListOverdue
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,6 +58,7 @@ class ExploreFragment : Fragment() {
         setupListeners()
         setupLists()
         viewModel.tasksResult.observe(viewLifecycleOwner, ::handleTasks)
+        viewModel.filterState.observe(viewLifecycleOwner, ::handleFilterTasks)
     }
 
     override fun onStart() {
@@ -95,6 +101,9 @@ class ExploreFragment : Fragment() {
                 duration = 500
             }
         }
+        binding.tasksButton.setOnClickListener {
+            showTasksMenu(it)
+        }
     }
 
     private fun setupLists() {
@@ -105,7 +114,12 @@ class ExploreFragment : Fragment() {
     private fun handleTasks(state: TasksResult) {
         when (state) {
             is TasksResult.SuccessResult -> {
-                tasksAdapter.submitList(state.result)
+                viewModel.currentList = state.result
+                when (binding.tasksButton.text) {
+                    getString(FilterTasks.ALL.value) -> tasksAdapter.submitList(viewModel.currentList.toListAll())
+                    getString(FilterTasks.OVERDUE.value) -> tasksAdapter.submitList(viewModel.currentList.toListOverdue())
+                    else -> tasksAdapter.submitList(viewModel.currentList.toListAll())
+                }
             }
             is TasksResult.ErrorResult -> {
 
@@ -115,6 +129,19 @@ class ExploreFragment : Fragment() {
             }
             is TasksResult.Loading -> {
 
+            }
+        }
+    }
+
+    private fun handleFilterTasks(state: FilterTasks) {
+        when (state) {
+            FilterTasks.ALL -> {
+                binding.tasksButton.text = getString(FilterTasks.ALL.value)
+                tasksAdapter.submitList(viewModel.currentList.toListAll())
+            }
+            FilterTasks.OVERDUE -> {
+                binding.tasksButton.text = getString(FilterTasks.OVERDUE.value)
+                tasksAdapter.submitList(viewModel.currentList.toListOverdue())
             }
         }
     }
@@ -138,6 +165,32 @@ class ExploreFragment : Fragment() {
         val extras = FragmentNavigatorExtras(view to view.transitionName)
         val directions = ExploreFragmentDirections.actionExploreFragmentToDetailsFragment(id)
         findNavController().safeNavigate(directions, extras)
+    }
+
+    private fun showTasksMenu(v: View) {
+        val listPopupWindow = ListPopupWindow(
+            requireContext(),
+            null,
+            com.google.android.material.R.attr.listPopupWindowStyle
+        )
+        listPopupWindow.anchorView = v
+
+        val items = listOf(
+            getString(FilterTasks.ALL.value),
+            getString(FilterTasks.OVERDUE.value)
+        )
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_popup_window_item, items)
+        listPopupWindow.setAdapter(adapter)
+
+        listPopupWindow.setOnItemClickListener { _, _, position, _ ->
+            when (position) {
+                0 -> viewModel.toggleFilterState(FilterTasks.ALL)
+                1 -> viewModel.toggleFilterState(FilterTasks.OVERDUE)
+            }
+            listPopupWindow.dismiss()
+        }
+
+        listPopupWindow.show()
     }
 
     override fun onDestroyView() {

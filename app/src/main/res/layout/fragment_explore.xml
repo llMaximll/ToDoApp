@@ -18,41 +18,23 @@
         app:menu="@menu/menu_explore"
         app:navigationIcon="@drawable/ic_baseline_menu_24" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/today_textView"
-        android:layout_width="0dp"
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/tasks_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
+        android:layout_marginStart="18dp"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:text="@string/explore_fragment_today_tasks"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
+        app:iconGravity="end"
+        android:text="@string/explore_fragment_all_tasks"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintEnd_toStartOf="@id/filter_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolBar"
         app:layout_constraintBottom_toTopOf="@id/today_recyclerView"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/filter_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:text="@string/explore_fragment_filter_date"
-        app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/today_textView"
-        app:layout_constraintTop_toBottomOf="@id/toolBar"
-        app:layout_constraintBottom_toTopOf="@id/today_recyclerView"/>
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="today_textView,filter_button"
-        tools:layout_editor_absoluteY="785dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_recyclerView"
@@ -62,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier" />
+        app:layout_constraintTop_toBottomOf="@id/tasks_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

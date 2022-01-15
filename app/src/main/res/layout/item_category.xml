@@ -12,7 +12,7 @@
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tasks_textView"
+            android:id="@+id/tasks_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="40 categories"

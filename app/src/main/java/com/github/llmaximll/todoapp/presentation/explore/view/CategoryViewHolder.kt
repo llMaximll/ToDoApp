@@ -9,7 +9,7 @@ class CategoryViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(category: Category, onCategoryClick: (Long) -> Unit) {
-        binding.tasksTextView.text = category.tasks.size.toString()
+        binding.tasksButton.text = category.tasks.size.toString()
         binding.categoriesTextView.text = category.title
         setClickListener(onCategoryClick, category)
     }

@@ -17,6 +17,13 @@ class ExploreViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
 
+    var currentList = emptyList<Task>()
+
+    private val _filterState = MutableStateFlow(FilterTasks.ALL)
+    val filterState: LiveData<FilterTasks>
+        get() = _filterState
+            .asLiveData(viewModelScope.coroutineContext)
+
     private val _tasksResult = MutableStateFlow<TasksResult>(TasksResult.EmptyResult)
     val tasksResult: LiveData<TasksResult>
         get() = _tasksResult
@@ -32,10 +39,11 @@ class ExploreViewModel @Inject constructor(
     private suspend fun handleTasks(): TasksResult {
         return when (val tasks = tasksRepository.getTasks()) {
             is Result.Error -> TasksResult.ErrorResult(IllegalArgumentException("Tasks not found"))
-            is Result.Success -> if (tasks.result.isEmpty())
+            is Result.Success -> if (tasks.result.isEmpty()){
                 TasksResult.EmptyResult
-            else
+            } else {
                 TasksResult.SuccessResult(tasks.result)
+            }
         }
     }
 
@@ -49,5 +57,9 @@ class ExploreViewModel @Inject constructor(
         viewModelScope.launch {
             tasksRepository.insertTask(task)
         }
+    }
+
+    fun toggleFilterState(state: FilterTasks) {
+        _filterState.value = state
     }
 }

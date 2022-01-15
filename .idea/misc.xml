@@ -16,10 +16,13 @@
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_notifications.xml" value="0.209375" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/fragment_search.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_category.xml" value="0.209375" />
+        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_page.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_task.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/item_today.xml" value="0.14537037037037037" />
+        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/layout/list_popup_window_item.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/menu/menu_details.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/menu/menu_explore.xml" value="0.14537037037037037" />
+        <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/menu/menu_explore_context_tasks.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/menu/menu_main.xml" value="0.209375" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1015" />
         <entry key="..\:/Users/mporu/AndroidStudioProjects/ToDoApp/app/src/main/res/xml/activity_main_scene.xml" value="0.209375" />

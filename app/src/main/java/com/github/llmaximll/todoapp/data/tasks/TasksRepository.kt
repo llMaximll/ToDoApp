@@ -45,7 +45,7 @@ class TasksRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchTasks(query: String): Result<List<Task>, Throwable?> {
-        val tasks = tasksLocalDataSource.searchTasks("$query%")
+        val tasks = tasksLocalDataSource.searchTasks("%$query%")
         val result = if (tasks != null) {
             Result.Success(tasks.map { it.toModel() })
         } else {
