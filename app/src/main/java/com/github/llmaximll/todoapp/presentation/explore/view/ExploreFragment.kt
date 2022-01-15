@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.llmaximll.todoapp.R
 import com.github.llmaximll.todoapp.databinding.FragmentExploreBinding
-import com.github.llmaximll.todoapp.presentation.explore.viewmodel.CategoriesResult
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.ExploreViewModel
 import com.github.llmaximll.todoapp.presentation.explore.viewmodel.TasksResult
 import com.github.llmaximll.todoapp.utils.safeNavigate
@@ -33,9 +32,6 @@ class ExploreFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ExploreViewModel by viewModels()
-    private val categoriesAdapter = CategoriesAdapter { id ->
-
-    }
     private val tasksAdapter by lazy(LazyThreadSafetyMode.NONE) {
         TasksAdapter(requireContext(), ::onTaskClicked)
     }
@@ -56,7 +52,6 @@ class ExploreFragment : Fragment() {
 
         setupListeners()
         setupLists()
-        viewModel.categoriesResult.observe(viewLifecycleOwner, ::handleCategories)
         viewModel.tasksResult.observe(viewLifecycleOwner, ::handleTasks)
     }
 
@@ -103,29 +98,8 @@ class ExploreFragment : Fragment() {
     }
 
     private fun setupLists() {
-        binding.categoriesRecyclerView.layoutManager = LinearLayoutManager(
-            requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.categoriesRecyclerView.adapter = categoriesAdapter
-
         binding.todayRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.todayRecyclerView.adapter = tasksAdapter
-    }
-
-    private fun handleCategories(state: CategoriesResult) {
-        when (state) {
-            is CategoriesResult.SuccessResult -> {
-                categoriesAdapter.submitList(state.result)
-            }
-            is CategoriesResult.ErrorResult -> {
-
-            }
-            is CategoriesResult.EmptyResult -> {
-
-            }
-            is CategoriesResult.Loading -> {
-
-            }
-        }
     }
 
     private fun handleTasks(state: TasksResult) {

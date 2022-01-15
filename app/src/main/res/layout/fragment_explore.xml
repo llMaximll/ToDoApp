@@ -19,28 +19,6 @@
         app:navigationIcon="@drawable/ic_baseline_menu_24" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/categories_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
-        android:text="@string/explore_fragment_categories"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categories_textView" />
-
-    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/today_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -52,7 +30,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintEnd_toStartOf="@id/filter_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categories_recyclerView"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
         app:layout_constraintBottom_toTopOf="@id/today_recyclerView"/>
 
     <com.google.android.material.button.MaterialButton
@@ -65,7 +43,7 @@
         app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/today_textView"
-        app:layout_constraintTop_toBottomOf="@id/categories_recyclerView"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
         app:layout_constraintBottom_toTopOf="@id/today_recyclerView"/>
 
     <androidx.constraintlayout.widget.Barrier

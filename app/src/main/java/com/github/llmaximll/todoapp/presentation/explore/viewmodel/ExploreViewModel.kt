@@ -17,11 +17,6 @@ class ExploreViewModel @Inject constructor(
     private val tasksRepository: TasksRepository
 ) : ViewModel() {
 
-    private val _categoriesResult = MutableStateFlow<CategoriesResult>(CategoriesResult.EmptyResult)
-    val categoriesResult: LiveData<CategoriesResult>
-        get() = _categoriesResult
-            .asLiveData(viewModelScope.coroutineContext)
-
     private val _tasksResult = MutableStateFlow<TasksResult>(TasksResult.EmptyResult)
     val tasksResult: LiveData<TasksResult>
         get() = _tasksResult
@@ -29,21 +24,8 @@ class ExploreViewModel @Inject constructor(
 
     fun fetchData() {
         viewModelScope.launch {
-            _categoriesResult.value = CategoriesResult.Loading
-            _categoriesResult.value = handleCategories()
-
             _tasksResult.value = TasksResult.Loading
             _tasksResult.value = handleTasks()
-        }
-    }
-
-    private suspend fun handleCategories(): CategoriesResult {
-        return when (val categories = tasksRepository.getCategories()) {
-            is Result.Error -> CategoriesResult.ErrorResult(IllegalArgumentException("Tasks not found"))
-            is Result.Success -> if (categories.result.isEmpty())
-                CategoriesResult.EmptyResult
-            else
-                CategoriesResult.SuccessResult(categories.result)
         }
     }
 
