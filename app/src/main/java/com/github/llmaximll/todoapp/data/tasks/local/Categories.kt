@@ -1,17 +1,21 @@
 package com.github.llmaximll.todoapp.data.tasks.local
 
-enum class Categories(val value: String) {
-    BUSINESS("Business"),
-    PERSONAL("Personal"),
-    EDUCATION("Education"),
-    SCIENCE("Science");
+import android.content.Context
+import androidx.annotation.StringRes
+import com.github.llmaximll.todoapp.R
+
+enum class Categories(@StringRes val value: Int) {
+    BUSINESS(R.string.details_fragment_category_business),
+    PERSONAL(R.string.details_fragment_category_personal),
+    EDUCATION(R.string.details_fragment_category_education),
+    SCIENCE(R.string.details_fragment_category_science);
 
     companion object {
-        fun String.toCategory(): Categories =
+        fun String.toCategory(context: Context): Categories =
             when (this) {
-                BUSINESS.value -> BUSINESS
-                PERSONAL.value -> PERSONAL
-                EDUCATION.value -> EDUCATION
+                context.getString(BUSINESS.value) -> BUSINESS
+                context.getString(PERSONAL.value) -> PERSONAL
+                context.getString(EDUCATION.value) -> EDUCATION
                 else -> SCIENCE
             }
     }

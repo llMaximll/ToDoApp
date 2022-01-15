@@ -64,7 +64,7 @@ class AddFragment : Fragment() {
                 viewModel.add(
                     title = binding.titleEditText.text.toString(),
                     description = binding.descriptionEditText.text.toString(),
-                    category = binding.textField.text.toString().toCategory()
+                    category = binding.textField.text.toString().toCategory(requireContext())
                 )
             }
         }
@@ -116,13 +116,13 @@ class AddFragment : Fragment() {
 
     private fun setupViews() {
         val items = listOf(
-            Categories.PERSONAL.value,
-            Categories.BUSINESS.value,
-            Categories.EDUCATION.value,
-            Categories.SCIENCE.value,
+            getString(Categories.PERSONAL.value),
+            getString(Categories.BUSINESS.value),
+            getString(Categories.EDUCATION.value),
+            getString(Categories.SCIENCE.value),
         )
         val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
-        binding.textField.setText(Categories.PERSONAL.value, false)
+        binding.textField.setText(getString(Categories.PERSONAL.value), false)
         (binding.textField as? AutoCompleteTextView)?.setAdapter(adapter)
 
         val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))

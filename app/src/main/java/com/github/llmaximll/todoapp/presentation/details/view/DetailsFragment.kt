@@ -46,8 +46,8 @@ class DetailsFragment : Fragment() {
     private val args: DetailsFragmentArgs by navArgs()
     private val categoriesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         val items = listOf(
-            Categories.PERSONAL.value, Categories.BUSINESS.value,
-            Categories.EDUCATION.value, Categories.SCIENCE.value)
+            getString(Categories.PERSONAL.value), getString(Categories.BUSINESS.value),
+            getString(Categories.EDUCATION.value), getString(Categories.SCIENCE.value))
         ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
     }
     private var shouldInterceptBackPress = true
@@ -118,7 +118,7 @@ class DetailsFragment : Fragment() {
 
         binding.titleEditText.setText(state.task.title.value)
         binding.descriptionEditText.setText(state.task.description.value)
-        binding.textField.setText(state.task.category.value, false)
+        binding.textField.setText(getString(state.task.category.value), false)
         (binding.textField as? AutoCompleteTextView)?.setAdapter(categoriesAdapter)
 
         val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
@@ -238,7 +238,7 @@ class DetailsFragment : Fragment() {
             viewModel.update(
                 title = binding.titleEditText.text.toString(),
                 description = binding.descriptionEditText.text.toString(),
-                category = binding.textField.text.toString().toCategory(),
+                category = binding.textField.text.toString().toCategory(requireContext()),
             )
         }
     }

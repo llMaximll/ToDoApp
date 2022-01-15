@@ -40,6 +40,10 @@
     <string name="details_fragment_error_delete">Failed to delete the task</string>
     <string name="details_fragment_button_done">Mark Completed</string>
     <string name="details_fragment_button_not_done">Mark as incomplete</string>
+    <string name="details_fragment_category_personal">Personal</string>
+    <string name="details_fragment_category_business">Business</string>
+    <string name="details_fragment_category_education">Education</string>
+    <string name="details_fragment_category_science">Science</string>
     <string name="shared_element">sharedElement_</string>
     <string name="notification_title">ToDoApp</string>
     <!-- Strings used for fragments for navigation -->
