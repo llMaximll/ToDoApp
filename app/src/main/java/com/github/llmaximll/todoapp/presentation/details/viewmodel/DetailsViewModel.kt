@@ -190,7 +190,7 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    private fun deleteWork(context: Context) {
+    fun deleteWork(context: Context) {
         WorkManager.getInstance(context).cancelAllWorkByTag(taskId.toString())
     }
 

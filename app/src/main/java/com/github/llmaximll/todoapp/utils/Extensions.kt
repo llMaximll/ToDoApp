@@ -13,10 +13,20 @@ import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.github.llmaximll.todoapp.work.NotifyWorker
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 fun View.showSnackbar(
     @StringRes stringRes: Int,
@@ -79,4 +89,27 @@ fun Context.vectorToBitmap(drawableId: Int): Bitmap? {
     drawable.setBounds(0, 0, canvas.width, canvas.height)
     drawable.draw(canvas)
     return bitmap
+}
+
+fun ViewModel.scheduleNotification(context: Context, title: String, workId: Long, date: Calendar) {
+    viewModelScope.launch {
+        val customTime: Long = date.timeInMillis
+        val currentTime = System.currentTimeMillis()
+
+        val data = Data.Builder().apply {
+            putLong(NotifyWorker.NOTIFICATION_ID, 0)
+            putString(NotifyWorker.NOTIFICATION_SUBTITLE, title)
+        }.build()
+        val delay = customTime - currentTime
+
+        val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java).apply {
+            setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            setInputData(data)
+            addTag(workId.toString())
+        }.build()
+
+        val instanceWorkManager = WorkManager.getInstance(context)
+        instanceWorkManager.beginUniqueWork(NotifyWorker.NOTIFICATION_WORK, ExistingWorkPolicy.APPEND_OR_REPLACE, notificationWork)
+            .enqueue()
+    }
 }

@@ -23,6 +23,7 @@ import com.github.llmaximll.todoapp.presentation.details.viewmodel.DeleteState
 import com.github.llmaximll.todoapp.presentation.details.viewmodel.DetailsViewModel
 import com.github.llmaximll.todoapp.presentation.details.viewmodel.FetchDetailsState
 import com.github.llmaximll.todoapp.presentation.details.viewmodel.UpdateState
+import com.github.llmaximll.todoapp.utils.scheduleNotification
 import com.github.llmaximll.todoapp.utils.showErrorResId
 import com.github.llmaximll.todoapp.utils.showSnackbar
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -97,10 +98,10 @@ class DetailsFragment : Fragment() {
     private fun handleDoneState(state: Boolean) {
         if (state.not()) {
             binding.doneButton.text = getString(R.string.details_fragment_button_done)
-            setEnableAll(false)
+            setEnableAll(true)
         } else {
             binding.doneButton.text = getString(R.string.details_fragment_button_not_done)
-            setEnableAll(true)
+            setEnableAll(false)
         }
     }
 
@@ -125,10 +126,10 @@ class DetailsFragment : Fragment() {
 
         if (state.task.done.not()) {
             binding.doneButton.text = getString(R.string.details_fragment_button_done)
-            setEnableAll(false)
+            setEnableAll(true)
         } else {
             binding.doneButton.text = getString(R.string.details_fragment_button_not_done)
-            setEnableAll(true)
+            setEnableAll(false)
         }
     }
 
@@ -315,8 +316,20 @@ class DetailsFragment : Fragment() {
 
             val dateString = DateFormat.format("dd/MM/yyyy HH:mm", Date(viewModel.date.timeInMillis))
             binding.dateButton.text = dateString
+
+            viewModel.deleteWork(requireContext())
+            addNotification(viewModel.taskId)
         }
         timePicker.show(parentFragmentManager, null)
+    }
+
+    private fun addNotification(taskId: Long) {
+        viewModel.scheduleNotification(
+            requireContext(),
+            binding.titleEditText.text.toString(),
+            taskId,
+            viewModel.date
+        )
     }
 
     override fun onDestroyView() {

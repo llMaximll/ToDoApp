@@ -122,26 +122,4 @@ class AddViewModel @Inject constructor(
     private fun isValidDate(date: Long) =
         date > currentTimeMillis()
 
-    fun scheduleNotification(context: Context, title: String, workId: Long) {
-        viewModelScope.launch {
-            val customTime: Long = date.timeInMillis
-            val currentTime = currentTimeMillis()
-
-            val data = Data.Builder().apply {
-                putLong(NOTIFICATION_ID, 0)
-                putString(NOTIFICATION_SUBTITLE, title)
-            }.build()
-            val delay = customTime - currentTime
-
-            val notificationWork = OneTimeWorkRequest.Builder(NotifyWorker::class.java).apply {
-                setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                setInputData(data)
-                addTag(workId.toString())
-            }.build()
-
-            val instanceWorkManager = WorkManager.getInstance(context)
-            instanceWorkManager.beginUniqueWork(NotifyWorker.NOTIFICATION_WORK, ExistingWorkPolicy.APPEND_OR_REPLACE, notificationWork)
-                .enqueue()
-        }
-    }
 }

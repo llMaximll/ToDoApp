@@ -20,6 +20,7 @@ import com.github.llmaximll.todoapp.data.tasks.local.Categories.Companion.toCate
 import com.github.llmaximll.todoapp.databinding.FragmentAddBinding
 import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddState
 import com.github.llmaximll.todoapp.presentation.add.viewmodel.AddViewModel
+import com.github.llmaximll.todoapp.utils.scheduleNotification
 import com.github.llmaximll.todoapp.utils.showErrorResId
 import com.github.llmaximll.todoapp.utils.showSnackbar
 import com.google.android.material.datepicker.CalendarConstraints
@@ -88,7 +89,8 @@ class AddFragment : Fragment() {
                 viewModel.scheduleNotification(
                     requireContext(),
                     binding.titleEditText.text.toString(),
-                    state.taskId
+                    state.taskId,
+                    viewModel.date
                 )
                 findNavController().popBackStack(R.id.explore_fragment, false)
             }
