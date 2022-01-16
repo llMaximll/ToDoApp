@@ -12,6 +12,8 @@
  - Jetpack Navigation (для навигации в приложении)
  - WorkManager (для фоновой работы)
  - Material Design 3
+ - Firebase Crashlytics
+ - Firebase Performance
 
 | <img  src="https://user-images.githubusercontent.com/62645670/149627042-7202dae5-dea2-44ce-8019-96249843311c.jpg"  width="150" /> | <img  src="https://user-images.githubusercontent.com/62645670/149627041-1094957e-8741-47c5-80ed-8e6a05083ee7.jpg"  width="150" /> |
 |--|--|
